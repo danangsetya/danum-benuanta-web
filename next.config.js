@@ -4,7 +4,7 @@ const nextConfig = {
     MAIN_URL: process.env.MAIN_URL,
   },
   images: {
-    domains: ["localhost", "kerja.tirtaalamtarakan.co.id"],
+    domains: ["localhost", "absen.danumbenuanta.id"],
   },
   webpack: (config, options) => {
     config.module.rules.push({
