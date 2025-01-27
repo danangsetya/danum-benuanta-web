@@ -1,0 +1,211 @@
+###
+POST http://localhost:3002/api/pesan
+
+{
+  "tes":"tes"
+}
+###
+POST http://localhost:3002/api/pesan/list 
+Content-Type: application/json
+
+{
+  "param":"",
+  "page":1
+}
+####
+GET https://backend-pm.tirtaalamtarakan.co.id/all/cust/per/page/7/UkFLSE1BREhBTkksIFMuIEtPTS4=
+Authorization: Bearer b57ba00b29bb4b73ec75f685e85acacd59600a4d
+
+###
+GET http://localhost:3002/api/pesan/delete?id=1
+###
+GET http://localhost:3002/api/auth/signin
+###
+POST http://localhost:3002/api/auth/signin/:provider
+###
+GET https://kerja.tirtaalamtarakan.co.id/api/auth/signin
+###
+POST https://kerja.tirtaalamtarakan.co.id/api/auth/signin/:provider
+###
+POST http://180.250.156.236:3002/api/auth/signin/:provider
+###
+#     id: number;
+#     jenis: string;
+#     smb_stat: string;
+#     kec: string;
+#     tunggakan: number;
+#     daerah: string;
+#     tanggal_awal: string;
+#     tanggal_akhir: string;
+#     pesan: string;
+#     rutin: boolean;
+#     aktif: boolean;
+POST http://localhost:3002/api/pesan/update
+Content-Type: application/json
+
+{
+  "id":27,
+  "jenis":"Tagihan",
+  "smb_stat":"30",
+  "kec":"",
+  "pesan":"jika aku bisa",
+  "tanggal_awal":"2023-07-27",
+  "tanggal_akhir":"2023-07-27",
+  "rutin":true,
+  "aktif":true,
+  "daerah":"",
+  "kec":""
+}
+
+###
+GET http://localhost:3002/api/pesan/sendstatus?id=27
+
+###
+POST http://localhost:3002/api/pengguna/resetpass
+Content-Type: application/json
+
+{
+  "id":66
+}
+
+###
+GET http://localhost:3002/api/pengguna/helper
+
+###
+GET http://localhost:3002/api/pengguna/cari/username?uname=danang
+
+
+###request form data
+POST http://localhost/wacekpdam/public_html/v2/verify/hash HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+me=123456
+&you=$2y$10$xvCo7OC6c5dEZNttuBC3H.XrnSvlr2AvugTip8XhwKDFogHJt4962
+
+
+###request form data
+POST https://pde.tirtaalamtarakan.co.id/v2/verify/hash HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+me=123456
+&you=$2y$10$xvCo7OC6c5dEZNttuBC3H.XrnSvlr2AvugTip8XhwKDFogHJt4962
+
+###
+GET http://localhost:3002/face/auth/eyJ1c2VyIjoxLCJuYW1lIjoiZGFuYW5nIn0=
+
+### eyJ1c2VyIjoxLCJuYW1lIjoiZGFuYW5nIn0=
+### eyJ1c2VyIjo2NiwibmFtZSI6ImRhbmFuZyJ9
+GET http://localhost:3002/api/testing
+
+###
+GET https://kerja.tirtaalamtarakan.co.id/api/pesan/sendstatus?id=41
+
+###
+GET http://localhost:3002/api/pesan/sendstatus?id=277
+
+
+###
+GET https://api.faceio.net/deletefacialid?fid=4a59b7d1eeea4a28b8fa28ea7578b671&key=ac17a21050d3920097a86986c8bbd6b4
+
+###
+GET https://kerja.tirtaalamtarakan.co.id/api/pesan/sendstatus?id=42
+
+####
+POST http://localhost:3002/api/pengaturan/pengguna/level/list
+
+###
+POST http://localhost:3002/api/pengaturan/pengguna/level/akseslist 
+Content-Type: application/json
+
+{
+  "param":"",
+  "page":1,
+  "id":11
+}
+
+###
+POST http://localhost:3002/api/pengaturan/pengguna/level/akseschange
+Content-Type: application/json
+
+{
+  "gid":null,
+  "pid":1
+}
+
+
+###
+GET http://180.250.156.234:3003
+
+###
+POST http://localhost:3002/api/pengaturan/pengguna/hak/list 
+Content-Type: application/json
+
+{
+  "param":"",
+  "page":1
+}
+####
+POST http://localhost:3002/api/absensi/rekap
+Content-Type: application/json
+
+{
+  "from":"2023-12-02",
+  "to":"2023-12-02"
+}
+
+###
+GET http://localhost:3002/api/pengaturan/pengguna/level/alllist 
+
+###
+POST https://kerja.tirtaalamtarakan.co.id/api/absensi/rekap
+Content-Type: application/json
+
+{
+  "from":"2023-12-01",
+  "to":"2023-12-26"
+}
+
+####
+POST http://localhost:3002/api/absensi/detail
+Content-Type: application/json
+
+{
+  "id_personalia":197,
+  "from":"2023-12-02",
+  "to":"2023-12-26"
+}
+###
+GET http://localhost:3002/api/percepatan-nrw/find-nosamw?nosamw=0106370
+
+###
+GET https://kerja.tirtaalamtarakan.co.id/api/percepatan-nrw/find-nosamw?nosamw=0106370
+
+###
+GET http://localhost:3002/api/image/content/2024/07/happy-new-1080x.jpeg
+
+###
+GET http://localhost:3002/api/percepatan-nrw/all
+
+###
+GET http://192.168.1.90:3004
+###
+GET https://pde.tirtaalamtarakan.co.id/pdamkerja/auth
+
+###
+GET http://localhost:3002/api/percepatan-nrw/sinkron-pm
+
+###
+GET https://kerja.tirtaalamtarakan.co.id/api/percepatan-nrw/sinkron-pm
+
+###
+GET http://localhost:3002/api/pengguna/detail/personalia/197
+
+
+###
+GET http://localhost:3002/api/document/files/danang/202410011543525-pelatihan-0-Pelatihan-maju-tak-gendar-12--danang.pdf
+
+###
+POST http://localhost:3002/api/files/upload/all
+
+###
+GET http://localhost:3002/api/sikompak/pelanggan/find/nosamw/xyz
