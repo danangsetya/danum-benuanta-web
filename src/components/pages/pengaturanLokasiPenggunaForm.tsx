@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { IScannerComponents, Scanner } from "@yudiel/react-qr-scanner";
 
 export default function PengaturanLokasiPenggunaForm({
   pNama = "",
@@ -259,13 +259,15 @@ export default function PengaturanLokasiPenggunaForm({
               onError={(error) => {
                 console.log(`onError: ${error}'`);
               }}
-              components={{
-                audio: true,
-                onOff: true,
-                torch: true,
-                zoom: true,
-                finder: true,
-              }}
+              components={
+                {
+                  audio: true,
+                  onOff: true,
+                  torch: true,
+                  zoom: true,
+                  finder: true,
+                } as IScannerComponents
+              }
               styles={{ container: { height: "400px", width: "350px" } }}
               formats={[
                 "qr_code",
