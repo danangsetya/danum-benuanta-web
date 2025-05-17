@@ -8,7 +8,7 @@ import { platform } from "os";
 import { useEffect, useState } from "react";
 import { BrowserType, OSType, WebClientInfo } from "react-client-info";
 import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { IScannerComponents, Scanner } from "@yudiel/react-qr-scanner";
 import { useToast } from "../ui/use-toast";
 import {
   hari,
@@ -256,7 +256,7 @@ export default function AbsensiPersonal({
                 torch: true,
                 zoom: true,
                 finder: true,
-              }}
+              } as IScannerComponents}
               styles={{ container: { height: "400px", width: "350px" } }}
               formats={[
                 "qr_code",
