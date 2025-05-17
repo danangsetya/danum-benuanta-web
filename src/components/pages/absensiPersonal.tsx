@@ -250,13 +250,15 @@ export default function AbsensiPersonal({
               onError={(error) => {
                 console.log(`onError: ${error}'`);
               }}
-              components={{
-                audio: true,
-                onOff: true,
-                torch: true,
-                zoom: true,
-                finder: true,
-              } as IScannerComponents}
+              components={
+                {
+                  audio: true,
+                  onOff: true,
+                  torch: true,
+                  zoom: true,
+                  finder: true,
+                } as IScannerComponents
+              }
               styles={{ container: { height: "400px", width: "350px" } }}
               formats={[
                 "qr_code",
@@ -373,6 +375,21 @@ export default function AbsensiPersonal({
                               window: true,
                               absen: "datang",
                             });
+                          } else if (res.message == "verified") {
+                            const nowDTHM = nowTrimDateTimeHM();
+                            const faceUri =
+                              uri +
+                              `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                main + "/absensi/personal"
+                              )}/${btoa("datang")}/${btoa(
+                                JSON.stringify({
+                                  uname: profil?.uname,
+                                  name: profil?.nama,
+                                })
+                              )}`;
+                            console.log("face auth->", faceUri);
+                            // redirect(uri as string);
+                            window.location.assign(faceUri);
                           }
                           //  setSt(res.message);
                         });
