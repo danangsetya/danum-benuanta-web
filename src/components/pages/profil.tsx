@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  helperType,
   karirT,
   keluargaT,
   pelatihanT,
@@ -24,7 +25,7 @@ import Image from "next/image";
 import ThumbnailPdf from "../helper/thumbnailPdf";
 import Link from "next/link";
 
-export default function ProfilC() {
+export default function ProfilC({ helper }: { helper?: helperType }) {
   const [personalia, setPersonalia] = useState<personaliaType>();
   const [pendidikanI, setPendidikanI] = useState<pendidikanT[]>();
   const [keluargaI, setKeluargaI] = useState<keluargaT[]>();
@@ -34,6 +35,7 @@ export default function ProfilC() {
   const [tab, setTab] = useState<"diri" | "personal" | "pendidikan" | "sk">(
     "diri"
   );
+  const [lokasiAbsen, setLokasiAbsen] = useState("");
   useLayoutEffect(() => {
     fetch("/api/profil/all", {
       method: "GET",
@@ -45,6 +47,19 @@ export default function ProfilC() {
       .then((res) => {
         console.log("res->", res);
         if (res.personalia) {
+          console.log(
+            "lokasiA->",
+            helper?.lokasi.find((i) => i.id == res.personalia.id_lokasi)
+          );
+          const lokasiF = helper?.lokasi.find(
+            (i) => i.id == res.personalia.id_lokasi
+          );
+          if (
+            lokasiF?.nama_lokasi !== undefined &&
+            lokasiF.nama_lokasi !== ""
+          ) {
+            setLokasiAbsen(lokasiF.nama_lokasi);
+          }
           setPersonalia(res.personalia);
         }
         if (res.keluarga) {
@@ -176,73 +191,73 @@ export default function ProfilC() {
                 >
                   <div
                     className={
-                      `h-3 w-1/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-1/12 bg-green-600 rounded-2xl ` +
                       (progress == 1 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-2/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-2/12 bg-green-600 rounded-2xl ` +
                       (progress == 2 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-3/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-3/12 bg-green-600 rounded-2xl ` +
                       (progress == 3 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-4/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-4/12 bg-green-600 rounded-2xl ` +
                       (progress == 4 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-5/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-5/12 bg-green-600 rounded-2xl ` +
                       (progress == 5 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-6/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-6/12 bg-green-600 rounded-2xl ` +
                       (progress == 6 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-7/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-7/12 bg-green-600 rounded-2xl ` +
                       (progress == 7 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-8/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-8/12 bg-green-600 rounded-2xl ` +
                       (progress == 8 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-9/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-9/12 bg-green-600 rounded-2xl ` +
                       (progress == 9 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-10/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-10/12 bg-green-600 rounded-2xl ` +
                       (progress == 10 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-11/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-11/12 bg-green-600 rounded-2xl ` +
                       (progress == 11 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-12/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-12/12 bg-green-600 rounded-2xl ` +
                       (progress == 12 ? "" : "hidden")
                     }
                   ></div>
@@ -667,11 +682,11 @@ export default function ProfilC() {
                   onKeyDown={handleEnter}
                   value={personalia.username}
                 /> */}
-                  <div className="w-7  h-full border-r-[1px] border-y-[1px] border-lime-600 rounded-r-lg flex justify-center items-center">
-                    {/* {searchName !== "" && searchName.length >= 4 && allowName && (
+                  {/* <div className="w-7  h-full border-r-[1px] border-y-[1px] border-lime-600 rounded-r-lg flex justify-center items-center"> */}
+                  {/* {searchName !== "" && searchName.length >= 4 && allowName && (
                   <FontAwesomeIcon icon={faCheck} className="text-green-600" />
                 )} */}
-                    {/* {searchLoading ? (
+                  {/* {searchLoading ? (
                     <FontAwesomeIcon
                       icon={faCircleNotch}
                       className="text-lime-600 animate-spin"
@@ -696,7 +711,7 @@ export default function ProfilC() {
                   ) : (
                     <FontAwesomeIcon icon={faXmark} className="text-red-600" />
                   )} */}
-                  </div>
+                  {/* </div> */}
                 </div>
               </div>
               {/* <div className="flex-1 flex flex-col pr-3 md:pr-0">
@@ -823,6 +838,14 @@ export default function ProfilC() {
                   );
                 })}
               </select> */}
+              </div>
+              <div className="flex-1 flex flex-col pr-3 md:pr-0">
+                <label className="-mb-1 text-sm text-lime-600">
+                  Lokasi Absen
+                </label>
+                <label className="p-1 border-[1px] border-lime-600 rounded-lg">
+                  {lokasiAbsen}
+                </label>
               </div>
               <div className="flex-1 flex flex-col pr-3 md:pr-0">
                 <label className="-mb-1 text-sm text-lime-600">Golongan</label>

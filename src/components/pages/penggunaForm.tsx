@@ -90,7 +90,7 @@ export function TabMenu({
         className={
           "hidden md:block  h-10 w-5 " +
           (aktif
-            ? "bg-lime-600 group-hover/tab:bg-lime-700"
+            ? "bg-lime-600 group-hover/tab:bg-green-600"
             : "bg-slate-400 group-hover/tab:bg-slate-300")
         }
       >
@@ -100,7 +100,7 @@ export function TabMenu({
         className={
           "h-32 md:h-10 w-32  md:w-auto  flex flex-row-reverse md:flex-row md:space-x-1 md:items-center justify-center rounded-t-xl md:rounded-none md:rounded-t-xl p-2 text-slate-50 -rotate-90 md:rotate-0  " +
           (aktif
-            ? "bg-lime-600 group-hover/tab:bg-lime-700"
+            ? "bg-lime-600 group-hover/tab:bg-green-600"
             : "bg-slate-400 group-hover/tab:bg-slate-300")
         }
       >
@@ -110,7 +110,7 @@ export function TabMenu({
         className={
           "hidden md:block h-10 w-5 " +
           (aktif
-            ? "bg-lime-600 group-hover/tab:bg-lime-700"
+            ? "bg-lime-600 group-hover/tab:bg-green-600"
             : "bg-slate-400 group-hover/tab:bg-slate-300")
         }
       >
@@ -610,73 +610,73 @@ export default function PenggunaForm({
                 >
                   <div
                     className={
-                      `h-3 w-1/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-1/12 bg-green-600 rounded-2xl ` +
                       (progress == 1 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-2/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-2/12 bg-green-600 rounded-2xl ` +
                       (progress == 2 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-3/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-3/12 bg-green-600 rounded-2xl ` +
                       (progress == 3 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-4/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-4/12 bg-green-600 rounded-2xl ` +
                       (progress == 4 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-5/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-5/12 bg-green-600 rounded-2xl ` +
                       (progress == 5 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-6/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-6/12 bg-green-600 rounded-2xl ` +
                       (progress == 6 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-7/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-7/12 bg-green-600 rounded-2xl ` +
                       (progress == 7 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-8/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-8/12 bg-green-600 rounded-2xl ` +
                       (progress == 8 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-9/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-9/12 bg-green-600 rounded-2xl ` +
                       (progress == 9 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-10/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-10/12 bg-green-600 rounded-2xl ` +
                       (progress == 10 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-11/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-11/12 bg-green-600 rounded-2xl ` +
                       (progress == 11 ? "" : "hidden")
                     }
                   ></div>
                   <div
                     className={
-                      `h-3 w-12/12 bg-lime-700 rounded-2xl ` +
+                      `h-3 w-12/12 bg-green-600 rounded-2xl ` +
                       (progress == 12 ? "" : "hidden")
                     }
                   ></div>
@@ -1187,7 +1187,7 @@ export default function PenggunaForm({
               </div>
             </div>
           </div>
-          <div className="flex flex-row mt-2 space-x-3 px-3 md:px-0">
+          <div className="flex flex-col md:flex-row mt-2 space-x-3 px-3 md:px-0">
             <div className="flex-1 flex flex-col">
               <label className="-mb-1 text-sm text-lime-600">Mk Gaji</label>
               <input

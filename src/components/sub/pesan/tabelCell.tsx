@@ -298,7 +298,7 @@ export default function PesanTableCell({
               )}
               {/* {tgl.getDate()} */}
               {item?.terkirim !== undefined && item.terkirim > 0 && (
-                <span className="bg-lime-700 p-2 text-center text-slate-50">
+                <span className="bg-green-600 p-2 text-center text-slate-50">
                   Terkirim{" "}
                   {
                     <ItemCell

@@ -12,7 +12,7 @@ export default async function MainLayout({
 }) {
   return (
     <Providers>
-      <div className="flex flex-col-reverse md:flex-row bg-lime-700">
+      <div className="flex flex-col-reverse md:flex-row bg-green-600">
         <MenuLeft />
         {/* <div className="w-[200px] flex flex-col bg-red-400">
               <h1>TES</h1>

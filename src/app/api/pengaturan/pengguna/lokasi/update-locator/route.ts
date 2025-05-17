@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { httpStatus } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { StringLiteral } from "typescript";
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session)
@@ -10,17 +11,28 @@ export async function POST(request: NextRequest) {
       { message: "Unauthorized" },
       { status: httpStatus.Unauthorized }
     );
-  const req: { nama: string; lat: number; lon: number } = await request.json();
-  if (req.nama !== "") {
-    const levelAdd = await prisma.lokasi_absen.create({
+  type reqT = {
+    nama: string;
+    lat: number;
+    lon: number;
+    id: number;
+    locator: string;
+  };
+  const req: reqT = await request.json();
+  const idI: number = req.id * 1;
+  if (req.nama !== "" && idI !== 0) {
+    const levelUpdate = await prisma.lokasi_absen.update({
       data: {
         nama_lokasi: req.nama,
         lat: req.lat * 1,
         lon: req.lon * 1,
-        locator: "",
+        locator: req.locator,
+      },
+      where: {
+        id: idI,
       },
     });
-    if (levelAdd) {
+    if (levelUpdate) {
       return NextResponse.json(
         { message: "Data Tersimpan" },
         { status: httpStatus.Ok }

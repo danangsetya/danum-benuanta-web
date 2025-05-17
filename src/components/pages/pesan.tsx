@@ -405,7 +405,7 @@ function FormPesan() {
       </div>
       <div className="flex flex-row mt-2 text-center justify-evenly">
         <button
-          className={"p-3 bg-lime-700  text-slate-50 rounded-lg min-w-[100px]"}
+          className={"p-3 bg-green-600  text-slate-50 rounded-lg min-w-[100px]"}
           type="button"
           name="btn_new"
           onClick={() => {
@@ -476,7 +476,7 @@ function FormPesan() {
           )}
         </button>
         <button
-          className="p-3 bg-lime-700  text-slate-50 rounded-lg "
+          className="p-3 bg-green-600  text-slate-50 rounded-lg "
           type="button"
           name="btn_new"
           onClick={() => {

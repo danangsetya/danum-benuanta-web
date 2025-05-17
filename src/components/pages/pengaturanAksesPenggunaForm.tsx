@@ -151,7 +151,7 @@ export default function PengaturanAksesPenggunaForm({
         >
           <button
             className={
-              "w-52 h-10 justify-center items-center bg-lime-600 rounded-xl font-bold text-slate-50 hover:bg-lime-700 active:bg-sky-500 "
+              "w-52 h-10 justify-center items-center bg-lime-600 rounded-xl font-bold text-slate-50 hover:bg-green-600 active:bg-sky-500 "
             }
             onClick={() => handleTambah()}
           >

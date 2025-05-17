@@ -116,6 +116,15 @@ export type absenT = {
   // total_ijin_cuti: number;
   // total_hari_libur: number;
 };
+export type absenSekarangT = {
+  id: number;
+  tanggal: string;
+  jam_masuk: string | null;
+  jam_keluar: string | null;
+  jam_lembur_masuk: string | null;
+  jam_lembur_keluar: string | null;
+  hari?: string;
+};
 export type profilT = {
   id?: string;
   user_id?: string;

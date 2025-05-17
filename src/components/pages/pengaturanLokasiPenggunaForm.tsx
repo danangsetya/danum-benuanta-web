@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 export default function PengaturanLokasiPenggunaForm({
   pNama = "",
@@ -34,6 +35,7 @@ export default function PengaturanLokasiPenggunaForm({
     title: "",
     description: "",
   });
+  const [qrWindow, setQrWindow] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -106,6 +108,82 @@ export default function PengaturanLokasiPenggunaForm({
   const [nama, setNama] = useState(pNama);
   const [lat, setLat] = useState(pLat);
   const [lon, setLon] = useState(pLon);
+  const handleScan = async (data: string) => {
+    try {
+      console.log("data qr->", data);
+      const plain = atob(data);
+      console.log("plain->", plain);
+      const d = plain.split("$$");
+      console.log(d);
+      if (d.length > 1) {
+        if (d[1] == nama) {
+          const locator = d[0].replaceAll(":", "");
+          fetch("/api/pengaturan/pengguna/lokasi/update-locator", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: pId, nama, lat, lon, locator }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log("tambah->", res);
+              if (res.message == "Data Tersimpan") {
+                toast({
+                  duration: 2000,
+                  className: "bg-green-500 text-slate-50",
+                  title: "Penyimpanan ",
+                  description: "Lokasi Pengguna Berhasil di Ubah",
+                });
+                callback(true);
+                // router.replace("/pengaturan/pengguna/level");
+              }
+            })
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
+        } else {
+          toast({
+            duration: 2000,
+            className: "bg-red-500 text-slate-50",
+            title: "Verifikasi Gagal ",
+            description: "Terjadi Kesalahan pada Nama IPA offline locator",
+          });
+        }
+      } else {
+        toast({
+          duration: 2000,
+          className: "bg-red-500 text-slate-50",
+          title: "Verifikasi Gagal ",
+          description: "Terjadi Kesalahan pada Split offline locator",
+        });
+      }
+      setQrWindow(false);
+    } catch (error) {
+      toast({
+        duration: 2000,
+        className: "bg-red-500 text-slate-50",
+        title: "Verifikasi Gagal ",
+        description: "Terjadi Kesalahan pada QR offline locator",
+      });
+      setQrWindow(false);
+    }
+
+    // setPause(true);
+    // try {
+    //   const response = await fetch(
+    //     `your-api-url?code=${encodeURIComponent(data)}`
+    //   );
+    //   const result = await response.json();
+
+    //   if (response.ok && result.success) {
+    //     alert("Success! Welcome to the conference.");
+    //   } else {
+    //     alert(result.message);
+    //   }
+    // } catch (error: unknown) {
+    //   console.log(error);
+    // } finally {
+    //   setPause(false);
+    // }
+  };
   return (
     <div className="flex flex-col">
       <Dialog open={alert.state} onOpenChange={setAlertState}>
@@ -123,7 +201,7 @@ export default function PengaturanLokasiPenggunaForm({
         className={pNama !== "" ? "flex flex-col mt-4" : "flex flex-row mt-4"}
       >
         <div className="flex flex-col flex-1 px-2">
-          <span>Nama Level</span>
+          <span>Nama Lokasi</span>
           <input
             className="p-1 border-[1px] border-lime-600 rounded-lg"
             type="text"
@@ -161,6 +239,60 @@ export default function PengaturanLokasiPenggunaForm({
             }}
           ></input>
         </div>
+        <div className="flex flex-col flex-1 px-2 justify-center items-center mt-2">
+          <button
+            className={
+              qrWindow
+                ? "hidden"
+                : "w-52 p-2 bg-lime-600 text-slate-50 rounded-xl font-bold"
+            }
+            onClick={() => setQrWindow(true)}
+          >
+            Sinkron Offline Locator
+          </button>
+          <div className={qrWindow ? "flex" : "hidden"}>
+            <Scanner
+              paused={!qrWindow}
+              onScan={(detectedCodes) => {
+                handleScan(detectedCodes[0].rawValue);
+              }}
+              onError={(error) => {
+                console.log(`onError: ${error}'`);
+              }}
+              components={{
+                audio: true,
+                onOff: true,
+                torch: true,
+                zoom: true,
+                finder: true,
+              }}
+              styles={{ container: { height: "400px", width: "350px" } }}
+              formats={[
+                "qr_code",
+                "micro_qr_code",
+                "rm_qr_code",
+                "maxi_code",
+                "pdf417",
+                "aztec",
+                "data_matrix",
+                "matrix_codes",
+                "dx_film_edge",
+                "databar",
+                "databar_expanded",
+                "codabar",
+                "code_39",
+                "code_93",
+                "code_128",
+                "ean_8",
+                "ean_13",
+                "itf",
+                "linear_codes",
+                "upc_a",
+                "upc_e",
+              ]}
+            />
+          </div>
+        </div>
         <div
           className={
             pNama == "" ? "flex items-end" : "flex  justify-center mt-2"
@@ -168,7 +300,7 @@ export default function PengaturanLokasiPenggunaForm({
         >
           <button
             className={
-              "w-52 h-10 justify-center items-center bg-lime-600 rounded-xl font-bold text-slate-50 hover:bg-lime-700 active:bg-sky-500 "
+              "w-52 h-10 justify-center items-center bg-lime-600 rounded-xl font-bold text-slate-50 hover:bg-green-600 active:bg-sky-500 "
             }
             onClick={() => handleTambah()}
           >

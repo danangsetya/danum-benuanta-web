@@ -10,7 +10,7 @@ export default async function Login() {
   console.log("session->", session);
   if (session) redirect("/");
   return (
-    <section className="bg-lime-700 min-h-[100vh] flex flex-col justify-center items-center">
+    <section className="bg-green-600 min-h-[100vh] flex flex-col justify-center items-center">
       <h1 className="text-yellow-400 text-[3rem] text-center md:text-left   font-bold mx-2">
         DANUM BENUANTA
         <span className="font-thin text-slate-50 text-[10px] align-super">

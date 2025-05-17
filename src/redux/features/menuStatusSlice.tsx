@@ -4,7 +4,7 @@ type MenuState = {
   value: number;
 };
 const initialState = {
-  value: 2,
+  value: 0,
 } as MenuState;
 export const menuSlice = createSlice({
   name: "menuState",
@@ -14,10 +14,10 @@ export const menuSlice = createSlice({
       state.value = 1;
     },
     setDefault: (state) => {
-      state.value = 2;
+      state.value = 0;
     },
     toggle: (state) => {
-      if (state.value == 0) state.value = 1;
+      if (state.value == 0) state.value = 2;
       else if (state.value == 1) state.value = 2;
       else state.value = 0;
     },

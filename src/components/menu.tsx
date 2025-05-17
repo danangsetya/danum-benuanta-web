@@ -18,6 +18,7 @@ import {
   faGear,
   faGlobe,
   faHome,
+  faListCheck,
   faMoneyBill,
   faMoneyBillWave,
   faPaperPlane,
@@ -25,6 +26,7 @@ import {
   faUser,
   faUsers,
   faWater,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
@@ -44,6 +46,7 @@ import Image from "next/image";
 export default function MenuLeft() {
   const router = useRouter();
   const path = usePathname();
+  const dispatch = useAppDispatch();
   const [permission, setPermissions] = useState<permissionT[]>();
   // const [profil, setProfil] = useState<profilT>();
   async function getSess() {
@@ -91,15 +94,19 @@ export default function MenuLeft() {
             : menuStatus == 1
             ? "w-full md:w-[50px]"
             : "hidden") +
-          " bg-lime-700  rounded-t-3xl md:rounded-none fixed bottom-0 md:relative h-3/4 md:min-h-[100vh] flex flex-col border-t-4 border-yellow-400 md:border-none cursor-pointer z-50"
+          " bg-green-600  rounded-t-3xl md:rounded-none fixed bottom-0 md:relative h-3/4 md:min-h-[100vh] flex flex-col border-t-4 border-yellow-400 md:border-none cursor-pointer z-[51]"
           // +
-          // " bg-lime-700 fixed  h-3/4 md:min-h-[100vh] flex flex-col"
+          // " bg-green-600 fixed  h-3/4 md:min-h-[100vh] flex flex-col"
         }
+        onClick={() => {
+          console.log("tab click");
+        }}
       >
         <div className="text-center my-2 font-bold text-slate-50">Menu</div>
         <div
           className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             router.push("/");
           }}
         >
@@ -109,14 +116,43 @@ export default function MenuLeft() {
           />
           <span className="text-white font-semibold">Home</span>
         </div>
-
+        <div
+          className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(toggle());
+            router.push("/absensi/personal");
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faClipboard}
+            className="text-[30px] w-[35px] text-slate-50"
+          />
+          <span className="text-white font-semibold">Absensi</span>
+        </div>
+        <div
+          className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(toggle());
+            router.push("/absensi/histori");
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faClipboard}
+            className="text-[30px] w-[35px] text-slate-50"
+          />
+          <span className="text-white font-semibold">Histori Absensi</span>
+        </div>
         {permission?.map((item, index) => {
           if (item.name === "user/profil") {
             return (
               <div
                 key={index}
                 className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(toggle());
                   router.push("/profil");
                 }}
               >
@@ -134,14 +170,17 @@ export default function MenuLeft() {
                 <div
                   className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
                   onClick={() => {
+                    dispatch(toggle());
                     router.push("/absensi");
                   }}
                 >
                   <FontAwesomeIcon
-                    icon={faClipboard}
+                    icon={faListCheck}
                     className="text-[30px] w-[35px] text-slate-50"
                   />
-                  <span className="text-white font-semibold">Absensi</span>
+                  <span className="text-white font-semibold">
+                    Master Absensi
+                  </span>
                 </div>
                 <div
                   className="flex flex-row p-1 space-x-2 items-center hover:bg-lime-600"
@@ -299,7 +338,7 @@ export default function MenuLeft() {
     <section
       className={
         (menuStatus == 1 ? "w-full md:w-[50px]" : "hidden") +
-        " bg-lime-700 rounded-t-3xl md:rounded-none shadow-lg fixed bottom-0 md:relative md:min-h-[100vh] flex flex-row flex-wrap space-x-3 md:space-x-0 md:flex-col items-center border-t-4 border-yellow-400 md:border-none"
+        " bg-green-600 rounded-t-3xl md:rounded-none shadow-lg fixed bottom-0 md:relative md:min-h-[100vh] flex flex-row flex-wrap space-x-3 md:space-x-0 md:flex-col items-center border-t-4 border-yellow-400 md:border-none"
       }
     >
       <div className="text-center text-sm my-2 text-slate-50 w-full">Menu</div>
@@ -341,15 +380,36 @@ export default function MenuLeft() {
 }
 export function MenuBottom() {
   const dispatch = useAppDispatch();
-
+  const menuStatus = useAppSelector((state) => {
+    console.log("state->", state);
+    return state.menuStateReducer.value;
+  });
   return (
     <div
-      className="fixed bottom-0 right-0 left-0 mx-auto z-50 h-5 w-[100px] bg-lime-600 rounded-t-full flex justify-center md:hidden"
+      className="fixed bottom-0 right-0 left-0 mx-auto z-[52] h-7 w-[100px] bg-green-600 rounded-t-3xl flex flex-col justify-center md:hidden"
       onClick={() => {
         dispatch(toggle());
       }}
     >
-      <FontAwesomeIcon icon={faAngleUp} className=" text-slate-50 mt-1" />
+      <FontAwesomeIcon
+        icon={faAngleUp}
+        className={
+          menuStatus == 0 ? " text-slate-50 -mb-2 font-medium" : "hidden"
+        }
+      />
+      <FontAwesomeIcon
+        icon={faX}
+        className={menuStatus > 0 ? " text-slate-50  text-2xl mb-2" : "hidden"}
+      />
+      <span
+        className={
+          menuStatus == 0
+            ? "text-center  mb-1 font-medium text-slate-50"
+            : "hidden"
+        }
+      >
+        menu
+      </span>
     </div>
   );
 }

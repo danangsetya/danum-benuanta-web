@@ -37,6 +37,8 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@wojtekmaj/react-hooks": "^1.19.0",
+    "@yudiel/react-qr-scanner": "^2.2.1",
+    "add": "^2.0.6",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.6.1",
@@ -61,6 +63,7 @@
     "pdf-to-base64": "^1.0.3",
     "pdfjs-dist": "3.9.179",
     "react": "18.2.0",
+    "react-client-info": "^0.0.22",
     "react-day-picker": "^8.9.1",
     "react-documents": "^1.2.1",
     "react-dom": "18.2.0",
@@ -71,7 +74,8 @@
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@types/md5": "^2.3.2",

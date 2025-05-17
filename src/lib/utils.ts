@@ -66,6 +66,24 @@ export const nowTrimDateTime = () => {
     .getHours()
     .toString()}${date.getMinutes().toString()}${date.getSeconds().toString()}`;
 };
+export const nowTrimDateTimeH = () => {
+  const date = new Date();
+  return `${date.getFullYear()}${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}`;
+};
+export const nowTrimDateTimeHM = () => {
+  const date = new Date();
+  return `${date.getFullYear()}${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}${date.getMinutes().toString().padStart(2, "0")}`;
+};
 export const shortDate = (dt: string) => {
   const date = new Date(dt);
   return `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -82,7 +100,36 @@ export function isKadaluarsa(
   // );
   return !(tglAwal <= tglSekarang && tglSekarang <= tglAkhir);
 }
+
 export const SERVER_PHP = "https://pde.tirtaalamtarakan.co.id/v2";
+export function hari(n: number) {
+  switch (n) {
+    case 0:
+      return "Minggu";
+      break;
+    case 1:
+      return "Senin";
+      break;
+    case 2:
+      return "Selasa";
+      break;
+    case 3:
+      return "Rabu";
+      break;
+    case 4:
+      return "Kamis";
+      break;
+    case 5:
+      return "Jumat";
+      break;
+    case 6:
+      return "Sabtu";
+      break;
+
+    default:
+      break;
+  }
+}
 export function validateEmail(mail: string) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
     return true;
@@ -119,4 +166,3 @@ export const dateLine = () => {
     )}${tgl.getHours()}${tgl.getMinutes()}${tgl.getMilliseconds()}`;
   return dateLine;
 };
-
