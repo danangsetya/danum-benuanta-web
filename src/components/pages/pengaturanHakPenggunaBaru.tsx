@@ -114,9 +114,7 @@ const useSearch = (param: string, page: number) => {
         .finally(() => setLoading(false));
     }
 
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
   }, [page]);
 
   return { hasMore, data, loading };

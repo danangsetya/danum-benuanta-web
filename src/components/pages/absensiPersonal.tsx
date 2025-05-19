@@ -333,7 +333,7 @@ export default function AbsensiPersonal({
             )}
           </div>
 
-          <h1 className="text-lg text-[#16a34a]">
+          <h1 className="text-lg text-[#16a34a] text-center">
             Anda Telah Berada di {lokasi}
           </h1>
           <h1 className="text-lg  mb-5 text-black text-center">
@@ -492,6 +492,70 @@ export default function AbsensiPersonal({
             <button
               className="p-3 bg-yellow-300  rounded-xl  min-w-[100] flex items-center"
               onClick={() => {
+                if ("geolocation" in navigator) {
+                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                  navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    // alert(coords.latitude);
+                    getSess().then((e) => {
+                      console.log("session->", e);
+                      const uuid = md5(e);
+                      console.log("md5->", uuid);
+
+                      fetch("/api/absensi/verify_lokasi", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          uuid,
+                          device: "browser",
+                          platform: "browser",
+                          lat: coords.latitude,
+                          lon: coords.longitude,
+                        }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          console.log("res verify push->", res);
+                          if (res.message == "unverified") {
+                            setQrWindow({
+                              ...qrWindow,
+                              window: true,
+                              absen: "pulang",
+                            });
+                          } else if (res.message == "verified") {
+                            const nowDTHM = nowTrimDateTimeHM();
+                            const faceUri =
+                              uri +
+                              `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                main + "/absensi/personal"
+                              )}/${btoa("pulang")}/${btoa(
+                                JSON.stringify({
+                                  uname: profil?.uname,
+                                  name: profil?.nama,
+                                })
+                              )}`;
+                            console.log("face auth->", faceUri);
+                            // redirect(uri as string);
+                            window.location.assign(faceUri);
+                          }
+                          //  setSt(res.message);
+                        });
+                    });
+                    //  setData((old) => {
+                    //    return {
+                    //      ...(old as dataT),
+                    //      lat: coords.latitude,
+                    //      lon: coords.longitude,
+                    //    };
+                    //  });
+                    console.log(coords);
+                    // const { latitude, longitude } = coords;
+                    // setLocation({ latitude, longitude });
+                  });
+                }
+
                 // request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
                 //   switch (resultR) {
                 //     case RESULTS.UNAVAILABLE:
@@ -565,70 +629,69 @@ export default function AbsensiPersonal({
             <button
               className="p-3 bg-green-500 rounded-xl  min-w-[100] flex items-center"
               onClick={() => {
-                // request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
-                //   switch (resultR) {
-                //     case RESULTS.UNAVAILABLE:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       // console.log(
-                //       //   'This feature is not available (on this device / in this conh1)',
-                //       // );
-                //       break;
-                //     case RESULTS.DENIED:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       // console.log(
-                //       //   'The permission has not been requested / is denied but requestable',
-                //       // );
-                //       break;
-                //     case RESULTS.GRANTED:
-                //       console.log(
-                //         "uri:",
-                //         authFaceUri +
-                //           "1/" +
-                //           base64.encode(
-                //             JSON.stringify({
-                //               user: profil?.id,
-                //               name: profil?.username,
-                //             })
-                //           )
-                //       );
-                //       navigation.navigate(Screen.FaceAuth, {
-                //         uri:
-                //           authFaceUri +
-                //           "1/" +
-                //           base64.encode(
-                //             JSON.stringify({
-                //               user: profil?.id,
-                //               name: profil?.username,
-                //             })
-                //           ),
-                //         kind: "lembur_datang",
-                //       });
-                //       // navigation.navigate(Screen.Absensi, {
-                //       //   initial: Math.floor(Math.random() * 20),
-                //       // });
-                //       break;
-                //     case RESULTS.BLOCKED:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       break;
-                //   }
-                // });
-                // console.log(
-                //   base64.encode(
-                //     JSON.stringify({
-                //       user: profil?.id,
-                //       name: profil?.username,
-                //     })
-                //   )
-                // );
+                if ("geolocation" in navigator) {
+                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                  navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    // alert(coords.latitude);
+                    getSess().then((e) => {
+                      console.log("session->", e);
+                      const uuid = md5(e);
+                      console.log("md5->", uuid);
+
+                      fetch("/api/absensi/verify_lokasi", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          uuid,
+                          device: "browser",
+                          platform: "browser",
+                          lat: coords.latitude,
+                          lon: coords.longitude,
+                        }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          console.log("res verify push->", res);
+                          if (res.message == "unverified") {
+                            setQrWindow({
+                              ...qrWindow,
+                              window: true,
+                              absen: "datang",
+                            });
+                          } else if (res.message == "verified") {
+                            const nowDTHM = nowTrimDateTimeHM();
+                            const faceUri =
+                              uri +
+                              `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                main + "/absensi/personal"
+                              )}/${btoa("lembur_datang")}/${btoa(
+                                JSON.stringify({
+                                  uname: profil?.uname,
+                                  name: profil?.nama,
+                                })
+                              )}`;
+                            console.log("face auth->", faceUri);
+                            // redirect(uri as string);
+                            window.location.assign(faceUri);
+                          }
+                          //  setSt(res.message);
+                        });
+                    });
+                    //  setData((old) => {
+                    //    return {
+                    //      ...(old as dataT),
+                    //      lat: coords.latitude,
+                    //      lon: coords.longitude,
+                    //    };
+                    //  });
+                    console.log(coords);
+                    // const { latitude, longitude } = coords;
+                    // setLocation({ latitude, longitude });
+                  });
+                }
               }}
             >
               <h1 className="text-slate-50 text-lg font-bold">Datang Lembur</h1>
@@ -636,70 +699,69 @@ export default function AbsensiPersonal({
             <button
               className="p-3 bg-orange-500 rounded-xl  min-w-[100] flex items-center"
               onClick={() => {
-                // request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
-                //   switch (resultR) {
-                //     case RESULTS.UNAVAILABLE:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       // console.log(
-                //       //   'This feature is not available (on this device / in this conh1)',
-                //       // );
-                //       break;
-                //     case RESULTS.DENIED:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       // console.log(
-                //       //   'The permission has not been requested / is denied but requestable',
-                //       // );
-                //       break;
-                //     case RESULTS.GRANTED:
-                //       console.log(
-                //         "uri:",
-                //         authFaceUri +
-                //           "1/" +
-                //           base64.encode(
-                //             JSON.stringify({
-                //               user: profil?.id,
-                //               name: profil?.username,
-                //             })
-                //           )
-                //       );
-                //       navigation.navigate(Screen.FaceAuth, {
-                //         uri:
-                //           authFaceUri +
-                //           "1/" +
-                //           base64.encode(
-                //             JSON.stringify({
-                //               user: profil?.id,
-                //               name: profil?.username,
-                //             })
-                //           ),
-                //         kind: "lembur_pulang",
-                //       });
-                //       // navigation.navigate(Screen.Absensi, {
-                //       //   initial: Math.floor(Math.random() * 20),
-                //       // });
-                //       break;
-                //     case RESULTS.BLOCKED:
-                //       Alert.alert(
-                //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //       );
-                //       break;
-                //   }
-                // });
-                // console.log(
-                //   base64.encode(
-                //     JSON.stringify({
-                //       user: profil?.id,
-                //       name: profil?.username,
-                //     })
-                //   )
-                // );
+                if ("geolocation" in navigator) {
+                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                  navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    // alert(coords.latitude);
+                    getSess().then((e) => {
+                      console.log("session->", e);
+                      const uuid = md5(e);
+                      console.log("md5->", uuid);
+
+                      fetch("/api/absensi/verify_lokasi", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          uuid,
+                          device: "browser",
+                          platform: "browser",
+                          lat: coords.latitude,
+                          lon: coords.longitude,
+                        }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          console.log("res verify push->", res);
+                          if (res.message == "unverified") {
+                            setQrWindow({
+                              ...qrWindow,
+                              window: true,
+                              absen: "datang",
+                            });
+                          } else if (res.message == "verified") {
+                            const nowDTHM = nowTrimDateTimeHM();
+                            const faceUri =
+                              uri +
+                              `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                main + "/absensi/personal"
+                              )}/${btoa("lembur_pulang")}/${btoa(
+                                JSON.stringify({
+                                  uname: profil?.uname,
+                                  name: profil?.nama,
+                                })
+                              )}`;
+                            console.log("face auth->", faceUri);
+                            // redirect(uri as string);
+                            window.location.assign(faceUri);
+                          }
+                          //  setSt(res.message);
+                        });
+                    });
+                    //  setData((old) => {
+                    //    return {
+                    //      ...(old as dataT),
+                    //      lat: coords.latitude,
+                    //      lon: coords.longitude,
+                    //    };
+                    //  });
+                    console.log(coords);
+                    // const { latitude, longitude } = coords;
+                    // setLocation({ latitude, longitude });
+                  });
+                }
               }}
             >
               <h1 className="text-slate-50 text-lg font-bold">Pulang Lembur</h1>

@@ -12,6 +12,8 @@ import {
 import { absensiT, permissionT, profilT } from "@/lib/types";
 import { getSession } from "next-auth/react";
 import { useToast } from "../ui/use-toast";
+import { CalendarIcon, UserIcon } from "lucide-react";
+import { hari } from "@/lib/utils";
 export default function HistoriAbsensiPersonal() {
   const [param, setParam] = useState("");
   const [page, setPage] = useState(1);
@@ -66,7 +68,7 @@ export default function HistoriAbsensiPersonal() {
       getData(1)
         .then((res) => {
           console.log("res param []->", res);
-          // setData(res?.data);
+          setData(res?.data);
           // if (res?.data.length == 0 && page >= 1) setHasMore(false);
         })
         .catch((err) => console.error(err))
@@ -224,12 +226,6 @@ export default function HistoriAbsensiPersonal() {
         /> */}
       </div>
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead></TableHead>
-            <TableHead>Daftar Absen</TableHead>
-          </TableRow>
-        </TableHeader>
         <TableBody>
           {loading && (
             <TableRow>
@@ -243,10 +239,44 @@ export default function HistoriAbsensiPersonal() {
             </TableRow>
           )}
           {data.map((item, index) => {
+            const tgl = new Date(item.tanggal);
+
             // console.log(item);
             return (
               <TableRow key={index} ref={loadMoreCallback}>
-                <TableCell className="flex flex-row space-x-2"></TableCell>
+                <TableCell className="flex flex-row space-x-2 -p-2">
+                  <CalendarIcon size={20} />
+                  {hari(tgl.getDay())},{" "}
+                  {tgl.getDate().toString().padStart(2, "0") +
+                    "-" +
+                    tgl.getMonth().toString().padStart(2, "0") +
+                    "-" +
+                    tgl.getFullYear()}
+                </TableCell>
+                <TableCell className="flex flex-row space-x-2 -p-2">
+                  <UserIcon size={20} /> Jam Datang :{" "}
+                  {item.jam_masuk == null
+                    ? ""
+                    : item.jam_masuk.substring(11, 19)}
+                </TableCell>
+                <TableCell className="flex flex-row space-x-2 -p-2">
+                  <UserIcon size={20} /> Jam Pulang :{" "}
+                  {item.jam_keluar == null
+                    ? ""
+                    : item.jam_keluar.substring(11, 19)}
+                </TableCell>
+                <TableCell className="flex flex-row space-x-2 -p-2">
+                  <UserIcon size={20} /> Jam Lembur Datang :{" "}
+                  {item.jam_lembur_masuk == null
+                    ? ""
+                    : item.jam_lembur_masuk.substring(11, 19)}
+                </TableCell>
+                <TableCell className="flex flex-row space-x-2 -p-2">
+                  <UserIcon size={20} /> Jam Lembur Pulang :{" "}
+                  {item.jam_lembur_keluar == null
+                    ? ""
+                    : item.jam_lembur_keluar.substring(11, 19)}
+                </TableCell>
               </TableRow>
             );
           })}
