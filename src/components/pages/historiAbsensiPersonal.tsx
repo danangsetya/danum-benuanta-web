@@ -249,7 +249,7 @@ export default function HistoriAbsensiPersonal() {
                   {hari(tgl.getDay())},{" "}
                   {tgl.getDate().toString().padStart(2, "0") +
                     "-" +
-                    tgl.getMonth().toString().padStart(2, "0") +
+                    (tgl.getMonth() + 1).toString().padStart(2, "0") +
                     "-" +
                     tgl.getFullYear()}
                 </TableCell>
