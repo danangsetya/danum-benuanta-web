@@ -287,6 +287,48 @@ export default function AbsensiPersonal({
           </DialogDescription>
         </DialogContent>
       </Dialog>
+      {profil?.id_mesin_absen == null ? (
+        <>
+          <span className="text-lg text-sky-500 text-center">
+            Mohon Lakukan Verifikasi Device di Bagian SDM, agar dapat melakukan
+            Pendaftaran Matrix Wajah.
+          </span>
+          <button
+            className="p-3 bg-sky-600 rounded-xl  min-w-[100] flex-row items-center space-x-2"
+            onClick={() => {
+              setWait(true);
+            //   myId().then((resId) => {
+            //     const { uuid, device, platform } = resId;
+            //     postData(cekUri, { uuid, platform, device_name: device })
+            //       .then((res: any) => {
+            //         console.log("[res Cek]", res);
+            //         // return false;
+            //         if (res.profil) {
+            //           setStore("profil", res.profil);
+            //           setProfil(res.profil);
+            //         }
+            //       })
+            //       .catch((err) => {
+            //         console.log("[err x]", err);
+            //       })
+            //       .finally(() => setWait(false));
+            //   });
+            }}
+          >
+            <span className="text-slate-50 text-lg font-bold">Reload</span>
+            {loading ? (
+              "Loading..."
+            ) : (
+              // <ActivityIndicator size={"large"} color={"#FFF"} />
+              // <ArrowPathIcon size={30} color={"#FFF"} />
+              // <Arrow
+              "O"
+            )}
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
       {stat == "verified" ? (
         <div className="flex-col items-center justify-center space-y-2  h-[80vh] ">
           <div className="w-full flex-col justify-center item-center p-3 ">
