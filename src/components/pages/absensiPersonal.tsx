@@ -304,6 +304,7 @@ export default function AbsensiPersonal({
               className="p-3 bg-sky-600 rounded-xl  w-36 flex-row items-center space-x-2 my-2"
               onClick={() => {
                 setWait(true);
+                
                 //   myId().then((resId) => {
                 //     const { uuid, device, platform } = resId;
                 //     postData(cekUri, { uuid, platform, device_name: device })
@@ -322,17 +323,23 @@ export default function AbsensiPersonal({
                 //   });
               }}
             >
-              <span className="text-slate-50 text-lg font-bold">Reload</span>
               {loading ? (
-                "Loading..."
+                <span className="text-slate-50 text-lg font-bold">
+                  Loading ...
+                </span>
               ) : (
                 // <ActivityIndicator size={"large"} color={"#FFF"} />
                 // <ArrowPathIcon size={30} color={"#FFF"} />
                 // <Arrow
-                <FontAwesomeIcon
-                  icon={faArrowsRotate}
-                  className="text-[30px] w-[35px] text-slate-50"
-                />
+                <>
+                  <span className="text-slate-50 text-lg font-bold">
+                    Reload
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faArrowsRotate}
+                    className="text-[30px] w-[35px] text-slate-50"
+                  />
+                </>
               )}
             </button>
           </div>

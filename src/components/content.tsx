@@ -61,7 +61,7 @@ export default function ContentDefault() {
           }
         >
           <span className="hidden sm:block">
-            DANUM BENUANTA
+            {/* {"DANUM BENUANTA"} */}
             <span className="font-thin text-lime-700 text-[10px] align-super">
               1.0.0
             </span>

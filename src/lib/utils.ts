@@ -135,6 +135,30 @@ type errFaceType = {
   state: string;
   description: string;
 };
+const errorsFace: errFaceType[] = [
+  { description: "", state: "PERMISSION_REFUSED", id: 1 },
+  { description: "", state: "NO_FACES_DETECTED", id: 2 },
+  { description: "", state: "UNRECOGNIZED_FACE", id: 3 },
+  { description: "", state: "MANY_FACES", id: 4 },
+  { description: "", state: "PAD_ATTACK", id: 5 },
+  { description: "", state: "FACE_MISMATCH", id: 6 },
+  { description: "", state: "NETWORK_IO", id: 7 },
+  { description: "", state: "WRONG_PIN_CODE", id: 8 },
+  { description: "", state: "PROCESSING_ERR", id: 9 },
+  { description: "", state: "UNAUTHORIZED:", id: 10 },
+  { description: "", state: "TERMS_NOT_ACCEPTED:", id: 11 },
+  { description: "", state: "UI_NOT_READY:", id: 12 },
+  { description: "", state: "SESSION_EXPIRED:", id: 13 },
+  { description: "", state: "TIMEOUT:", id: 14 },
+  { description: "", state: "TOO_MANY_REQUESTS:", id: 15 },
+  { description: "", state: "EMPTY_ORIGIN:", id: 16 },
+  { description: "", state: "FORBIDDDEN_ORIGIN:", id: 17 },
+  { description: "", state: "FORBIDDDEN_COUNTRY:", id: 18 },
+  { description: "", state: "UNIQUE_PIN_REQUIRED:", id: 19 },
+  { description: "", state: "SESSION_IN_PROGRESS:", id: 20 },
+  { description: "", state: "FACE_DUPLICATION:", id: 21 },
+  { description: "", state: "MINORS_NOT_ALLOWED", id: 22 },
+];
 export function validateEmail(mail: string) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
     return true;

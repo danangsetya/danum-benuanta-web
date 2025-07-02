@@ -6,12 +6,12 @@ export default function Page() {
   return (
     <div className="flex flex-col">
       <h1 className="text-center text-[#16a34a] font-extrabold text-3xl tracking-widest mt-2">
-        DANUM BENUANTA
+        {/* {"DANUM BENUANTA"} */}
       </h1>
       <h1 className="text-center text-[#16a34a] font-extrabold text-lg tracking-tighter">
         SISTEM ABSENSI DIGITAL
       </h1>
-      
+
       <AbsensiPersonal uri={backUrl} main={mainUrl as string} />
     </div>
   );
