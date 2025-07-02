@@ -19,31 +19,41 @@ const handleRespon = (user: string, userData: any) => {
           id: userData.id_personalia,
         },
       });
-      console.log("dataPermissions->", dataPermissions);
-      const dataPermToJson = JSON.parse(
-        JSON.stringify(dataPermissions, (_, value) =>
-          typeof value == "bigint" ? value.toString() : value
-        )
-      );
-      resolve({
-        id: userData?.id.toString(),
-        name: user,
-        email: JSON.stringify({
-          permissions: dataPermToJson,
-          profil: {
-            nama: dataPersonalia?.nama,
-            nik: dataPersonalia?.nik,
-            email: dataPersonalia?.email,
-            status_pegawai: dataPersonalia?.status_pegawai,
-            gol: dataPersonalia?.gol,
-            unit_kerja: dataPersonalia?.unit_kerja,
-            jabatan: dataPersonalia?.jabatan,
-            bagian: dataPersonalia?.bagian,
-            pangkat: dataPersonalia?.pangkat,
-            uname: dataPersonalia?.username,
+      if (dataPersonalia) {
+        const dataUser = await prisma.users.findFirst({
+          where: {
+            id: dataPersonalia.id,
           },
-        }),
-      } as User);
+        });
+        console.log("dataPermissions->", dataPermissions);
+        const dataPermToJson = JSON.parse(
+          JSON.stringify(dataPermissions, (_, value) =>
+            typeof value == "bigint" ? value.toString() : value
+          )
+        );
+        resolve({
+          id: userData?.id.toString(),
+          name: user,
+          email: JSON.stringify({
+            permissions: dataPermToJson,
+            profil: {
+              nama: dataPersonalia?.nama,
+              nik: dataPersonalia?.nik,
+              email: dataPersonalia?.email,
+              status_pegawai: dataPersonalia?.status_pegawai,
+              gol: dataPersonalia?.gol,
+              unit_kerja: dataPersonalia?.unit_kerja,
+              jabatan: dataPersonalia?.jabatan,
+              bagian: dataPersonalia?.bagian,
+              pangkat: dataPersonalia?.pangkat,
+              uname: dataPersonalia?.username,
+              hash: dataUser?.activate_hash,
+              id_mesin_absen: dataPersonalia.id_mesin_absen,
+            },
+          }),
+        } as User);
+      }
+
       // const
     }
   });

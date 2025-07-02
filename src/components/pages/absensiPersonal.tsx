@@ -17,6 +17,8 @@ import {
   nowTrimDateTimeHM,
 } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsRotate, faFaceSmile } from "@fortawesome/free-solid-svg-icons";
 
 export default function AbsensiPersonal({
   uri,
@@ -186,6 +188,10 @@ export default function AbsensiPersonal({
     console.log("stat->", stat);
   }, [stat]);
   useEffect(() => {
+    console.log("main url->");
+    console.log("profil->", profil);
+  }, [profil]);
+  useEffect(() => {
     if ("geolocation" in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
 
@@ -287,332 +293,673 @@ export default function AbsensiPersonal({
           </DialogDescription>
         </DialogContent>
       </Dialog>
-      {profil?.id_mesin_absen == null ? (
-        <>
-          <span className="text-lg text-sky-500 text-center">
-            Mohon Lakukan Verifikasi Device di Bagian SDM, agar dapat melakukan
-            Pendaftaran Matrix Wajah.
-          </span>
-          <button
-            className="p-3 bg-sky-600 rounded-xl  min-w-[100] flex-row items-center space-x-2"
-            onClick={() => {
-              setWait(true);
-            //   myId().then((resId) => {
-            //     const { uuid, device, platform } = resId;
-            //     postData(cekUri, { uuid, platform, device_name: device })
-            //       .then((res: any) => {
-            //         console.log("[res Cek]", res);
-            //         // return false;
-            //         if (res.profil) {
-            //           setStore("profil", res.profil);
-            //           setProfil(res.profil);
-            //         }
-            //       })
-            //       .catch((err) => {
-            //         console.log("[err x]", err);
-            //       })
-            //       .finally(() => setWait(false));
-            //   });
-            }}
-          >
-            <span className="text-slate-50 text-lg font-bold">Reload</span>
-            {loading ? (
-              "Loading..."
-            ) : (
-              // <ActivityIndicator size={"large"} color={"#FFF"} />
-              // <ArrowPathIcon size={30} color={"#FFF"} />
-              // <Arrow
-              "O"
-            )}
-          </button>
-        </>
-      ) : (
-        <></>
-      )}
-      {stat == "verified" ? (
-        <div className="flex-col items-center justify-center space-y-2  h-[80vh] ">
-          <div className="w-full flex-col justify-center item-center p-3 ">
-            <div className="flex-row items-center space-x-2 bg-yellow-50/50 justify-center">
-              {/* <CalendarIcon size={20} color={"#000"} /> */}
-              <h1 className="text-lg text-black text-center">
-                {hari(new Date().getDay())},{" "}
-                {new Date().toLocaleDateString("id-ID")}
-              </h1>
-            </div>
-            {sekarang !== undefined && (
-              <>
-                <div className="flex-row items-center space-x-2">
-                  {/* <UserIcon size={20} color={"#000"} /> */}
-                  <h1 className="text-lg text-black w-1/2">Jam Masuk</h1>
-                  <h1 className="text-lg text-black flex-1">
-                    : {sekarang?.jam_masuk}
-                  </h1>
-                </div>
-                <div className="flex-row items-center space-x-2">
-                  {/* <UserIcon size={20} color={"#000"} /> */}
-                  <h1 className="text-lg text-black  w-1/2">Jam Pulang</h1>
-                  <h1 className="text-lg text-black flex-1">
-                    : {sekarang?.jam_keluar}
-                  </h1>
-                </div>
-                <div className="flex-row items-center space-x-2">
-                  {/* <UserIcon size={20} color={"#000"} /> */}
-                  <h1 className="text-lg text-black w-1/2">Jam Lembur Masuk</h1>
-                  <h1 className="text-lg text-black flex-1">
-                    : {sekarang?.jam_lembur_masuk}
-                  </h1>
-                </div>
-                <div className="flex-row items-center space-x-2">
-                  {/* <UserIcon size={20} color={"#000"} /> */}
-                  <h1 className="text-lg text-black w-1/2">
-                    Jam Lembur Pulang
-                  </h1>
-                  <h1 className="text-lg text-black flex-1">
-                    : {sekarang?.jam_lembur_keluar}
-                  </h1>
-                </div>
-              </>
-            )}
-          </div>
-
-          <h1 className="text-lg text-[#16a34a] text-center">
-            Anda Telah Berada di {lokasi}
-          </h1>
-          <h1 className="text-lg  mb-5 text-black text-center">
-            Silahkan Pilih Absen
-          </h1>
-          <div className="flex flex-row  justify-center space-x-5">
+      <div className="flex-col items-center justify-center space-y-2  h-[80vh] ">
+        {profil?.id_mesin_absen == null ? (
+          <div className="flex flex-col my-10 items-center">
+            <span className="text-lg text-sky-500 text-center">
+              Mohon Lakukan Verifikasi Device di Bagian SDM, agar dapat
+              melakukan Pendaftaran Matrix Wajah.
+            </span>
             <button
-              className="p-3 bg-sky-500 rounded-xl  min-w-[100] flex items-center"
+              className="p-3 bg-sky-600 rounded-xl  w-36 flex-row items-center space-x-2 my-2"
               onClick={() => {
-                if ("geolocation" in navigator) {
-                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-
-                  navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    // alert(coords.latitude);
-                    getSess().then((e) => {
-                      console.log("session->", e);
-                      const uuid = md5(e);
-                      console.log("md5->", uuid);
-
-                      fetch("/api/absensi/verify_lokasi", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          uuid,
-                          device: "browser",
-                          platform: "browser",
-                          lat: coords.latitude,
-                          lon: coords.longitude,
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => {
-                          console.log("res verify push->", res);
-                          if (res.message == "unverified") {
-                            setQrWindow({
-                              ...qrWindow,
-                              window: true,
-                              absen: "datang",
-                            });
-                          } else if (res.message == "verified") {
-                            const nowDTHM = nowTrimDateTimeHM();
-                            const faceUri =
-                              uri +
-                              `face/auth2/${btoa(nowDTHM)}/${btoa(
-                                main + "/absensi/personal"
-                              )}/${btoa("datang")}/${btoa(
-                                JSON.stringify({
-                                  uname: profil?.uname,
-                                  name: profil?.nama,
-                                })
-                              )}`;
-                            console.log("face auth->", faceUri);
-                            // redirect(uri as string);
-                            window.location.assign(faceUri);
-                          }
-                          //  setSt(res.message);
-                        });
-                    });
-                    //  setData((old) => {
-                    //    return {
-                    //      ...(old as dataT),
-                    //      lat: coords.latitude,
-                    //      lon: coords.longitude,
-                    //    };
-                    //  });
-                    console.log(coords);
-                    // const { latitude, longitude } = coords;
-                    // setLocation({ latitude, longitude });
-                  });
-                }
-                // if (Platform.OS == "ios") {
-                //   navigation.navigate(Screen.FaceAuth, {
-                //     uri:
-                //       authFaceUri +
-                //       "1/" +
-                //       base64.encode(
-                //         JSON.stringify({
-                //           user: profil?.id,
-                //           name: profil?.username,
-                //         })
-                //       ),
-                //     kind: "datang",
+                setWait(true);
+                //   myId().then((resId) => {
+                //     const { uuid, device, platform } = resId;
+                //     postData(cekUri, { uuid, platform, device_name: device })
+                //       .then((res: any) => {
+                //         console.log("[res Cek]", res);
+                //         // return false;
+                //         if (res.profil) {
+                //           setStore("profil", res.profil);
+                //           setProfil(res.profil);
+                //         }
+                //       })
+                //       .catch((err) => {
+                //         console.log("[err x]", err);
+                //       })
+                //       .finally(() => setWait(false));
                 //   });
-                // } else if (Platform.OS == "android") {
-                //   request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
-                //     switch (resultR) {
-                //       case RESULTS.UNAVAILABLE:
-                //         Alert.alert(
-                //           "Gagal Akses",
-                //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //         );
-                //         // console.log(
-                //         //   'This feature is not available (on this device / in this conh1)',
-                //         // );
-                //         break;
-                //       case RESULTS.DENIED:
-                //         Alert.alert(
-                //           "Gagal Akses",
-                //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //         );
-                //         // console.log(
-                //         //   'The permission has not been requested / is denied but requestable',
-                //         // );
-                //         break;
-                //       case RESULTS.GRANTED:
-                //         console.log(
-                //           "uri:",
-                //           authFaceUri +
-                //             "1/" +
-                //             base64.encode(
-                //               JSON.stringify({
-                //                 user: profil?.id,
-                //                 name: profil?.username,
-                //               })
-                //             )
-                //         );
-                //         navigation.navigate(Screen.FaceAuth, {
-                //           uri:
-                //             authFaceUri +
-                //             "1/" +
-                //             base64.encode(
-                //               JSON.stringify({
-                //                 user: profil?.id,
-                //                 name: profil?.username,
-                //               })
-                //             ),
-                //           kind: "datang",
-                //         });
-                //         // navigation.navigate(Screen.Absensi, {
-                //         //   initial: Math.floor(Math.random() * 20),
-                //         // });
-                //         break;
-                //       case RESULTS.BLOCKED:
-                //         Alert.alert(
-                //           "Gagal Akses",
-                //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
-                //         );
-                //         break;
-                //     }
-                //   });
-                // }
-                // console.log(
-                //   base64.encode(
-                //     JSON.stringify({
-                //       user: profil?.id,
-                //       name: profil?.username,
-                //     })
-                //   )
-                // );
               }}
             >
-              <h1 className="text-slate-50 text-lg font-bold">Datang</h1>
+              <span className="text-slate-50 text-lg font-bold">Reload</span>
+              {loading ? (
+                "Loading..."
+              ) : (
+                // <ActivityIndicator size={"large"} color={"#FFF"} />
+                // <ArrowPathIcon size={30} color={"#FFF"} />
+                // <Arrow
+                <FontAwesomeIcon
+                  icon={faArrowsRotate}
+                  className="text-[30px] w-[35px] text-slate-50"
+                />
+              )}
             </button>
-            <button
-              className="p-3 bg-yellow-300  rounded-xl  min-w-[100] flex items-center"
-              onClick={() => {
-                if ("geolocation" in navigator) {
-                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+          </div>
+        ) : profil.hash !== "" ? (
+          stat == "verified" ? (
+            <>
+              <div className="w-full flex-col justify-center item-center p-3 ">
+                <div className="flex-row items-center space-x-2 bg-yellow-50/50 justify-center">
+                  {/* <CalendarIcon size={20} color={"#000"} /> */}
+                  <h1 className="text-lg text-black text-center">
+                    {hari(new Date().getDay())},{" "}
+                    {new Date().toLocaleDateString("id-ID")}
+                  </h1>
+                </div>
+                {sekarang !== undefined && (
+                  <>
+                    <div className="flex-row items-center space-x-2">
+                      {/* <UserIcon size={20} color={"#000"} /> */}
+                      <h1 className="text-lg text-black w-1/2">Jam Masuk</h1>
+                      <h1 className="text-lg text-black flex-1">
+                        : {sekarang?.jam_masuk}
+                      </h1>
+                    </div>
+                    <div className="flex-row items-center space-x-2">
+                      {/* <UserIcon size={20} color={"#000"} /> */}
+                      <h1 className="text-lg text-black  w-1/2">Jam Pulang</h1>
+                      <h1 className="text-lg text-black flex-1">
+                        : {sekarang?.jam_keluar}
+                      </h1>
+                    </div>
+                    <div className="flex-row items-center space-x-2">
+                      {/* <UserIcon size={20} color={"#000"} /> */}
+                      <h1 className="text-lg text-black w-1/2">
+                        Jam Lembur Masuk
+                      </h1>
+                      <h1 className="text-lg text-black flex-1">
+                        : {sekarang?.jam_lembur_masuk}
+                      </h1>
+                    </div>
+                    <div className="flex-row items-center space-x-2">
+                      {/* <UserIcon size={20} color={"#000"} /> */}
+                      <h1 className="text-lg text-black w-1/2">
+                        Jam Lembur Pulang
+                      </h1>
+                      <h1 className="text-lg text-black flex-1">
+                        : {sekarang?.jam_lembur_keluar}
+                      </h1>
+                    </div>
+                  </>
+                )}
+              </div>
 
-                  navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    // alert(coords.latitude);
-                    getSess().then((e) => {
-                      console.log("session->", e);
-                      const uuid = md5(e);
-                      console.log("md5->", uuid);
+              <h1 className="text-lg text-[#16a34a] text-center">
+                Anda Telah Berada di {lokasi}
+              </h1>
+              <h1 className="text-lg  mb-5 text-black text-center">
+                Silahkan Pilih Absen
+              </h1>
+              <div className="flex flex-row  justify-center space-x-5">
+                <button
+                  className="p-3 bg-sky-500 rounded-xl  min-w-[100] flex items-center"
+                  onClick={() => {
+                    if ("geolocation" in navigator) {
+                      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
 
-                      fetch("/api/absensi/verify_lokasi", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          uuid,
-                          device: "browser",
-                          platform: "browser",
-                          lat: coords.latitude,
-                          lon: coords.longitude,
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => {
-                          console.log("res verify push->", res);
-                          if (res.message == "unverified") {
-                            setQrWindow({
-                              ...qrWindow,
-                              window: true,
-                              absen: "pulang",
+                      navigator.geolocation.getCurrentPosition(({ coords }) => {
+                        // alert(coords.latitude);
+                        getSess().then((e) => {
+                          console.log("session->", e);
+                          const uuid = md5(e);
+                          console.log("md5->", uuid);
+
+                          fetch("/api/absensi/verify_lokasi", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              uuid,
+                              device: "browser",
+                              platform: "browser",
+                              lat: coords.latitude,
+                              lon: coords.longitude,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((res) => {
+                              console.log("res verify push->", res);
+                              if (res.message == "unverified") {
+                                setQrWindow({
+                                  ...qrWindow,
+                                  window: true,
+                                  absen: "datang",
+                                });
+                              } else if (res.message == "verified") {
+                                const nowDTHM = nowTrimDateTimeHM();
+                                const faceUri =
+                                  uri +
+                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                    main + "/absensi/personal"
+                                  )}/${btoa("datang")}/${btoa(
+                                    JSON.stringify({
+                                      uname: profil?.uname,
+                                      name: profil?.nama,
+                                    })
+                                  )}`;
+                                console.log("face auth->", faceUri);
+                                // redirect(uri as string);
+                                window.location.assign(faceUri);
+                              }
+                              //  setSt(res.message);
                             });
-                          } else if (res.message == "verified") {
-                            const nowDTHM = nowTrimDateTimeHM();
-                            const faceUri =
-                              uri +
-                              `face/auth2/${btoa(nowDTHM)}/${btoa(
-                                main + "/absensi/personal"
-                              )}/${btoa("pulang")}/${btoa(
-                                JSON.stringify({
-                                  uname: profil?.uname,
-                                  name: profil?.nama,
-                                })
-                              )}`;
-                            console.log("face auth->", faceUri);
-                            // redirect(uri as string);
-                            window.location.assign(faceUri);
-                          }
-                          //  setSt(res.message);
                         });
-                    });
-                    //  setData((old) => {
-                    //    return {
-                    //      ...(old as dataT),
-                    //      lat: coords.latitude,
-                    //      lon: coords.longitude,
-                    //    };
-                    //  });
-                    console.log(coords);
-                    // const { latitude, longitude } = coords;
-                    // setLocation({ latitude, longitude });
-                  });
-                }
+                        //  setData((old) => {
+                        //    return {
+                        //      ...(old as dataT),
+                        //      lat: coords.latitude,
+                        //      lon: coords.longitude,
+                        //    };
+                        //  });
+                        console.log(coords);
+                        // const { latitude, longitude } = coords;
+                        // setLocation({ latitude, longitude });
+                      });
+                    }
+                    // if (Platform.OS == "ios") {
+                    //   navigation.navigate(Screen.FaceAuth, {
+                    //     uri:
+                    //       authFaceUri +
+                    //       "1/" +
+                    //       base64.encode(
+                    //         JSON.stringify({
+                    //           user: profil?.id,
+                    //           name: profil?.username,
+                    //         })
+                    //       ),
+                    //     kind: "datang",
+                    //   });
+                    // } else if (Platform.OS == "android") {
+                    //   request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
+                    //     switch (resultR) {
+                    //       case RESULTS.UNAVAILABLE:
+                    //         Alert.alert(
+                    //           "Gagal Akses",
+                    //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //         );
+                    //         // console.log(
+                    //         //   'This feature is not available (on this device / in this conh1)',
+                    //         // );
+                    //         break;
+                    //       case RESULTS.DENIED:
+                    //         Alert.alert(
+                    //           "Gagal Akses",
+                    //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //         );
+                    //         // console.log(
+                    //         //   'The permission has not been requested / is denied but requestable',
+                    //         // );
+                    //         break;
+                    //       case RESULTS.GRANTED:
+                    //         console.log(
+                    //           "uri:",
+                    //           authFaceUri +
+                    //             "1/" +
+                    //             base64.encode(
+                    //               JSON.stringify({
+                    //                 user: profil?.id,
+                    //                 name: profil?.username,
+                    //               })
+                    //             )
+                    //         );
+                    //         navigation.navigate(Screen.FaceAuth, {
+                    //           uri:
+                    //             authFaceUri +
+                    //             "1/" +
+                    //             base64.encode(
+                    //               JSON.stringify({
+                    //                 user: profil?.id,
+                    //                 name: profil?.username,
+                    //               })
+                    //             ),
+                    //           kind: "datang",
+                    //         });
+                    //         // navigation.navigate(Screen.Absensi, {
+                    //         //   initial: Math.floor(Math.random() * 20),
+                    //         // });
+                    //         break;
+                    //       case RESULTS.BLOCKED:
+                    //         Alert.alert(
+                    //           "Gagal Akses",
+                    //           "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //         );
+                    //         break;
+                    //     }
+                    //   });
+                    // }
+                    // console.log(
+                    //   base64.encode(
+                    //     JSON.stringify({
+                    //       user: profil?.id,
+                    //       name: profil?.username,
+                    //     })
+                    //   )
+                    // );
+                  }}
+                >
+                  <h1 className="text-slate-50 text-lg font-bold">Datang</h1>
+                </button>
+                <button
+                  className="p-3 bg-yellow-300  rounded-xl  min-w-[100] flex items-center"
+                  onClick={() => {
+                    if ("geolocation" in navigator) {
+                      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
 
+                      navigator.geolocation.getCurrentPosition(({ coords }) => {
+                        // alert(coords.latitude);
+                        getSess().then((e) => {
+                          console.log("session->", e);
+                          const uuid = md5(e);
+                          console.log("md5->", uuid);
+
+                          fetch("/api/absensi/verify_lokasi", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              uuid,
+                              device: "browser",
+                              platform: "browser",
+                              lat: coords.latitude,
+                              lon: coords.longitude,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((res) => {
+                              console.log("res verify push->", res);
+                              if (res.message == "unverified") {
+                                setQrWindow({
+                                  ...qrWindow,
+                                  window: true,
+                                  absen: "pulang",
+                                });
+                              } else if (res.message == "verified") {
+                                const nowDTHM = nowTrimDateTimeHM();
+                                const faceUri =
+                                  uri +
+                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                    main + "/absensi/personal"
+                                  )}/${btoa("pulang")}/${btoa(
+                                    JSON.stringify({
+                                      uname: profil?.uname,
+                                      name: profil?.nama,
+                                    })
+                                  )}`;
+                                console.log("face auth->", faceUri);
+                                // redirect(uri as string);
+                                window.location.assign(faceUri);
+                              }
+                              //  setSt(res.message);
+                            });
+                        });
+                        //  setData((old) => {
+                        //    return {
+                        //      ...(old as dataT),
+                        //      lat: coords.latitude,
+                        //      lon: coords.longitude,
+                        //    };
+                        //  });
+                        console.log(coords);
+                        // const { latitude, longitude } = coords;
+                        // setLocation({ latitude, longitude });
+                      });
+                    }
+
+                    // request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
+                    //   switch (resultR) {
+                    //     case RESULTS.UNAVAILABLE:
+                    //       Alert.alert(
+                    //         "Gagal Akses",
+                    //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //       );
+                    //       // console.log(
+                    //       //   'This feature is not available (on this device / in this conh1)',
+                    //       // );
+                    //       break;
+                    //     case RESULTS.DENIED:
+                    //       Alert.alert(
+                    //         "Gagal Akses",
+                    //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //       );
+                    //       // console.log(
+                    //       //   'The permission has not been requested / is denied but requestable',
+                    //       // );
+                    //       break;
+                    //     case RESULTS.GRANTED:
+                    //       console.log(
+                    //         "uri:",
+                    //         authFaceUri +
+                    //           "1/" +
+                    //           base64.encode(
+                    //             JSON.stringify({
+                    //               user: profil?.id,
+                    //               name: profil?.username,
+                    //             })
+                    //           )
+                    //       );
+                    //       navigation.navigate(Screen.FaceAuth, {
+                    //         uri:
+                    //           authFaceUri +
+                    //           "1/" +
+                    //           base64.encode(
+                    //             JSON.stringify({
+                    //               user: profil?.id,
+                    //               name: profil?.username,
+                    //             })
+                    //           ),
+                    //         kind: "pulang",
+                    //       });
+                    //       // navigation.navigate(Screen.Absensi, {
+                    //       //   initial: Math.floor(Math.random() * 20),
+                    //       // });
+                    //       break;
+                    //     case RESULTS.BLOCKED:
+                    //       Alert.alert(
+                    //         "Gagal Akses",
+                    //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                    //       );
+                    //       break;
+                    //   }
+                    // });
+                    // console.log(
+                    //   base64.encode(
+                    //     JSON.stringify({
+                    //       user: profil?.id,
+                    //       name: profil?.username,
+                    //     })
+                    //   )
+                    // );
+                  }}
+                >
+                  <h1 className="text-[#16a34a] text-lg font-bold">Pulang</h1>
+                </button>
+              </div>
+              <div className="flex flex-row justify-center space-x-5 pt-5">
+                <button
+                  className="p-3 bg-green-500 rounded-xl  min-w-[100] flex items-center"
+                  onClick={() => {
+                    if ("geolocation" in navigator) {
+                      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                      navigator.geolocation.getCurrentPosition(({ coords }) => {
+                        // alert(coords.latitude);
+                        getSess().then((e) => {
+                          console.log("session->", e);
+                          const uuid = md5(e);
+                          console.log("md5->", uuid);
+
+                          fetch("/api/absensi/verify_lokasi", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              uuid,
+                              device: "browser",
+                              platform: "browser",
+                              lat: coords.latitude,
+                              lon: coords.longitude,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((res) => {
+                              console.log("res verify push->", res);
+                              if (res.message == "unverified") {
+                                setQrWindow({
+                                  ...qrWindow,
+                                  window: true,
+                                  absen: "datang",
+                                });
+                              } else if (res.message == "verified") {
+                                const nowDTHM = nowTrimDateTimeHM();
+                                const faceUri =
+                                  uri +
+                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                    main + "/absensi/personal"
+                                  )}/${btoa("lembur_datang")}/${btoa(
+                                    JSON.stringify({
+                                      uname: profil?.uname,
+                                      name: profil?.nama,
+                                    })
+                                  )}`;
+                                console.log("face auth->", faceUri);
+                                // redirect(uri as string);
+                                window.location.assign(faceUri);
+                              }
+                              //  setSt(res.message);
+                            });
+                        });
+                        //  setData((old) => {
+                        //    return {
+                        //      ...(old as dataT),
+                        //      lat: coords.latitude,
+                        //      lon: coords.longitude,
+                        //    };
+                        //  });
+                        console.log(coords);
+                        // const { latitude, longitude } = coords;
+                        // setLocation({ latitude, longitude });
+                      });
+                    }
+                  }}
+                >
+                  <h1 className="text-slate-50 text-lg font-bold">
+                    Datang Lembur
+                  </h1>
+                </button>
+                <button
+                  className="p-3 bg-orange-500 rounded-xl  min-w-[100] flex items-center"
+                  onClick={() => {
+                    if ("geolocation" in navigator) {
+                      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                      navigator.geolocation.getCurrentPosition(({ coords }) => {
+                        // alert(coords.latitude);
+                        getSess().then((e) => {
+                          console.log("session->", e);
+                          const uuid = md5(e);
+                          console.log("md5->", uuid);
+
+                          fetch("/api/absensi/verify_lokasi", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              uuid,
+                              device: "browser",
+                              platform: "browser",
+                              lat: coords.latitude,
+                              lon: coords.longitude,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((res) => {
+                              console.log("res verify push->", res);
+                              if (res.message == "unverified") {
+                                setQrWindow({
+                                  ...qrWindow,
+                                  window: true,
+                                  absen: "datang",
+                                });
+                              } else if (res.message == "verified") {
+                                const nowDTHM = nowTrimDateTimeHM();
+                                const faceUri =
+                                  uri +
+                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                    main + "/absensi/personal"
+                                  )}/${btoa("lembur_pulang")}/${btoa(
+                                    JSON.stringify({
+                                      uname: profil?.uname,
+                                      name: profil?.nama,
+                                    })
+                                  )}`;
+                                console.log("face auth->", faceUri);
+                                // redirect(uri as string);
+                                window.location.assign(faceUri);
+                              }
+                              //  setSt(res.message);
+                            });
+                        });
+                        //  setData((old) => {
+                        //    return {
+                        //      ...(old as dataT),
+                        //      lat: coords.latitude,
+                        //      lon: coords.longitude,
+                        //    };
+                        //  });
+                        console.log(coords);
+                        // const { latitude, longitude } = coords;
+                        // setLocation({ latitude, longitude });
+                      });
+                    }
+                  }}
+                >
+                  <h1 className="text-slate-50 text-lg font-bold">
+                    Pulang Lembur
+                  </h1>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col items-center justify-center space-y-2  h-[80vh]">
+                <h1 className="text-lg text-[#16a34a] text-center">
+                  Anda Terdeteksi Tidak di {lokasi}
+                </h1>
+                <h1 className=" text-red-500 text-sm text-center">
+                  Segera ke {lokasi}, lakukan Deteksi atau Scan QR Lokasi {lab}
+                </h1>
+                {/* {(data == undefined || data.lat == 0 || data.lon == 0) && ( */}
+                <button
+                  className="bg-[#16a34a] p-4 rounded-3xl flex-row space-x-3 items-center"
+                  onClick={() => {
+                    if ("geolocation" in navigator) {
+                      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+
+                      navigator.geolocation.getCurrentPosition(({ coords }) => {
+                        // alert(coords.latitude);
+                        getSess().then((e) => {
+                          console.log("session->", e);
+                          const uuid = md5(e);
+                          console.log("md5->", uuid);
+
+                          fetch("/api/absensi/verify_lokasi", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              uuid,
+                              device: "browser",
+                              platform: "browser",
+                              lat: coords.latitude,
+                              lon: coords.longitude,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((res) => {
+                              console.log("res verify->", res);
+                              setSt(res.message);
+                            });
+                        });
+                        setData((old) => {
+                          return {
+                            ...(old as dataT),
+                            lat: coords.latitude,
+                            lon: coords.longitude,
+                          };
+                        });
+                        console.log(coords);
+                        // const { latitude, longitude } = coords;
+                        // setLocation({ latitude, longitude });
+                      });
+                    }
+                  }}
+                >
+                  <h1 className="font-bold text-slate-50 text-lg">
+                    Deteksi Lokasi saat ini
+                  </h1>
+                </button>
+                {/* )} */}
+                <button
+                  className="bg-[#16a34a] p-4 rounded-3xl flex-row space-x-3 items-center"
+                  onClick={() => {
+                    // setWait(true);
+                    // if (loading == false) {
+                    //   // getCurrentPosition();
+                    //   // getLocation();
+                    // }
+                    setQrWindow({
+                      ...qrWindow,
+                      window: true,
+                      absen: undefined,
+                    });
+                  }}
+                >
+                  {loading ? (
+                    <>
+                      {/* <ActivityIndicator size={"large"} color={"#FFF"} /> */}
+                      <h1 className="font-bold text-slate-50 text-lg">
+                        Detecting...
+                      </h1>
+                    </>
+                  ) : (
+                    <>
+                      {/* <ArrowPathIcon size={35} color={"#fff"} /> */}
+                      <h1 className="font-bold text-slate-50 text-lg">
+                        Scan QR Lokasi
+                      </h1>
+                    </>
+                  )}
+                </button>
+              </div>
+            </>
+          )
+        ) : (
+          <div className="flex flex-col items-center my-10">
+            <h3 className="text-lg text-sky-500">
+              Anda Belum Mendaftarkan Wajah Anda
+            </h3>
+
+            <button
+              className="p-3 bg-green-500 rounded-xl  min-w-[100] flex-row items-center"
+              onClick={() => {
+                const nowDTHM = nowTrimDateTimeHM();
+                const faceVerifyUri =
+                  uri +
+                  `face/auth_verify/${btoa(nowDTHM)}/${btoa(
+                    main + "/absensi/personal"
+                  )}/${btoa("datang")}/${btoa(
+                    JSON.stringify({
+                      uname: profil?.uname,
+                      name: profil?.nama,
+                    })
+                  )}`;
+                console.log("furl->", main + "/absensi/personal");
+                // http://localhost:3021/absensi/personal
+                console.log("face add->", faceVerifyUri);
+                window.location.assign(faceVerifyUri);
+                // http://localhost:3022/pdamkerja/face/auth_verify/MjAyNTA3MDIxMTQ0/aHR0cDovL2xvY2FsaG9zdDozMDIxL2Fic2Vuc2kvcGVyc29uYWw=/ZGF0YW5n/eyJ1bmFtZSI6ImFkbWluIiwibmFtZSI6IkRBTkFORyBTRVRZQSBQUkFNQU5BLCBTLiBLT00ifQ==
+                // http://localhost:3022/pdamkerja/face/add2/MjAyNTA3MDIxMDQw/aHR0cDovL2xvY2FsaG9zdDozMDIxL2Fic2Vuc2kvcGVyc29uYWw=/ZGF0YW5n/eyJ1bmFtZSI6ImFkbWluIiwibmFtZSI6IkRBTkFORyBTRVRZQSBQUkFNQU5BLCBTLiBLT00ifQ==
                 // request(PERMISSIONS.ANDROID.CAMERA).then((resultR) => {
                 //   switch (resultR) {
                 //     case RESULTS.UNAVAILABLE:
                 //       Alert.alert(
                 //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                //         "PDAM KERJA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
                 //       );
                 //       // console.log(
-                //       //   'This feature is not available (on this device / in this conh1)',
+                //       //   'This feature is not available (on this device / in this context)',
                 //       // );
                 //       break;
                 //     case RESULTS.DENIED:
                 //       Alert.alert(
                 //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                //         "PDAM KERJA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
                 //       );
                 //       // console.log(
                 //       //   'The permission has not been requested / is denied but requestable',
@@ -621,7 +968,7 @@ export default function AbsensiPersonal({
                 //     case RESULTS.GRANTED:
                 //       console.log(
                 //         "uri:",
-                //         authFaceUri +
+                //         addFaceUri +
                 //           "1/" +
                 //           base64.encode(
                 //             JSON.stringify({
@@ -640,7 +987,7 @@ export default function AbsensiPersonal({
                 //               name: profil?.username,
                 //             })
                 //           ),
-                //         kind: "pulang",
+                //         kind: "cek",
                 //       });
                 //       // navigation.navigate(Screen.Absensi, {
                 //       //   initial: Math.floor(Math.random() * 20),
@@ -649,7 +996,7 @@ export default function AbsensiPersonal({
                 //     case RESULTS.BLOCKED:
                 //       Alert.alert(
                 //         "Gagal Akses",
-                //         "DANUM BENUANTA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
+                //         "PDAM KERJA gagal mengakses lokasi akurat HP, Hubungi PDE untuk Bantuan Selanjutnya"
                 //       );
                 //       break;
                 //   }
@@ -664,241 +1011,15 @@ export default function AbsensiPersonal({
                 // );
               }}
             >
-              <h1 className="text-[#16a34a] text-lg font-bold">Pulang</h1>
+              <span className="text-slate-50 text-lg font-bold">Daftar</span>
+              <FontAwesomeIcon
+                icon={faFaceSmile}
+                className="text-[30px] w-[35px] text-slate-50"
+              />
             </button>
           </div>
-          <div className="flex flex-row justify-center space-x-5 pt-5">
-            <button
-              className="p-3 bg-green-500 rounded-xl  min-w-[100] flex items-center"
-              onClick={() => {
-                if ("geolocation" in navigator) {
-                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-
-                  navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    // alert(coords.latitude);
-                    getSess().then((e) => {
-                      console.log("session->", e);
-                      const uuid = md5(e);
-                      console.log("md5->", uuid);
-
-                      fetch("/api/absensi/verify_lokasi", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          uuid,
-                          device: "browser",
-                          platform: "browser",
-                          lat: coords.latitude,
-                          lon: coords.longitude,
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => {
-                          console.log("res verify push->", res);
-                          if (res.message == "unverified") {
-                            setQrWindow({
-                              ...qrWindow,
-                              window: true,
-                              absen: "datang",
-                            });
-                          } else if (res.message == "verified") {
-                            const nowDTHM = nowTrimDateTimeHM();
-                            const faceUri =
-                              uri +
-                              `face/auth2/${btoa(nowDTHM)}/${btoa(
-                                main + "/absensi/personal"
-                              )}/${btoa("lembur_datang")}/${btoa(
-                                JSON.stringify({
-                                  uname: profil?.uname,
-                                  name: profil?.nama,
-                                })
-                              )}`;
-                            console.log("face auth->", faceUri);
-                            // redirect(uri as string);
-                            window.location.assign(faceUri);
-                          }
-                          //  setSt(res.message);
-                        });
-                    });
-                    //  setData((old) => {
-                    //    return {
-                    //      ...(old as dataT),
-                    //      lat: coords.latitude,
-                    //      lon: coords.longitude,
-                    //    };
-                    //  });
-                    console.log(coords);
-                    // const { latitude, longitude } = coords;
-                    // setLocation({ latitude, longitude });
-                  });
-                }
-              }}
-            >
-              <h1 className="text-slate-50 text-lg font-bold">Datang Lembur</h1>
-            </button>
-            <button
-              className="p-3 bg-orange-500 rounded-xl  min-w-[100] flex items-center"
-              onClick={() => {
-                if ("geolocation" in navigator) {
-                  // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-
-                  navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    // alert(coords.latitude);
-                    getSess().then((e) => {
-                      console.log("session->", e);
-                      const uuid = md5(e);
-                      console.log("md5->", uuid);
-
-                      fetch("/api/absensi/verify_lokasi", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          uuid,
-                          device: "browser",
-                          platform: "browser",
-                          lat: coords.latitude,
-                          lon: coords.longitude,
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => {
-                          console.log("res verify push->", res);
-                          if (res.message == "unverified") {
-                            setQrWindow({
-                              ...qrWindow,
-                              window: true,
-                              absen: "datang",
-                            });
-                          } else if (res.message == "verified") {
-                            const nowDTHM = nowTrimDateTimeHM();
-                            const faceUri =
-                              uri +
-                              `face/auth2/${btoa(nowDTHM)}/${btoa(
-                                main + "/absensi/personal"
-                              )}/${btoa("lembur_pulang")}/${btoa(
-                                JSON.stringify({
-                                  uname: profil?.uname,
-                                  name: profil?.nama,
-                                })
-                              )}`;
-                            console.log("face auth->", faceUri);
-                            // redirect(uri as string);
-                            window.location.assign(faceUri);
-                          }
-                          //  setSt(res.message);
-                        });
-                    });
-                    //  setData((old) => {
-                    //    return {
-                    //      ...(old as dataT),
-                    //      lat: coords.latitude,
-                    //      lon: coords.longitude,
-                    //    };
-                    //  });
-                    console.log(coords);
-                    // const { latitude, longitude } = coords;
-                    // setLocation({ latitude, longitude });
-                  });
-                }
-              }}
-            >
-              <h1 className="text-slate-50 text-lg font-bold">Pulang Lembur</h1>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center space-y-2  h-[80vh]">
-          <h1 className="text-lg text-[#16a34a] text-center">
-            Anda Terdeteksi Tidak di {lokasi}
-          </h1>
-          <h1 className=" text-red-500 text-sm text-center">
-            Segera ke {lokasi}, lakukan Deteksi atau Scan QR Lokasi {lab}
-          </h1>
-          {/* {(data == undefined || data.lat == 0 || data.lon == 0) && ( */}
-          <button
-            className="bg-[#16a34a] p-4 rounded-3xl flex-row space-x-3 items-center"
-            onClick={() => {
-              if ("geolocation" in navigator) {
-                // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-
-                navigator.geolocation.getCurrentPosition(({ coords }) => {
-                  // alert(coords.latitude);
-                  getSess().then((e) => {
-                    console.log("session->", e);
-                    const uuid = md5(e);
-                    console.log("md5->", uuid);
-
-                    fetch("/api/absensi/verify_lokasi", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        uuid,
-                        device: "browser",
-                        platform: "browser",
-                        lat: coords.latitude,
-                        lon: coords.longitude,
-                      }),
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        console.log("res verify->", res);
-                        setSt(res.message);
-                      });
-                  });
-                  setData((old) => {
-                    return {
-                      ...(old as dataT),
-                      lat: coords.latitude,
-                      lon: coords.longitude,
-                    };
-                  });
-                  console.log(coords);
-                  // const { latitude, longitude } = coords;
-                  // setLocation({ latitude, longitude });
-                });
-              }
-            }}
-          >
-            <h1 className="font-bold text-slate-50 text-lg">
-              Deteksi Lokasi saat ini
-            </h1>
-          </button>
-          {/* )} */}
-          <button
-            className="bg-[#16a34a] p-4 rounded-3xl flex-row space-x-3 items-center"
-            onClick={() => {
-              // setWait(true);
-              // if (loading == false) {
-              //   // getCurrentPosition();
-              //   // getLocation();
-              // }
-              setQrWindow({ ...qrWindow, window: true, absen: undefined });
-            }}
-          >
-            {loading ? (
-              <>
-                {/* <ActivityIndicator size={"large"} color={"#FFF"} /> */}
-                <h1 className="font-bold text-slate-50 text-lg">
-                  Detecting...
-                </h1>
-              </>
-            ) : (
-              <>
-                {/* <ArrowPathIcon size={35} color={"#fff"} /> */}
-                <h1 className="font-bold text-slate-50 text-lg">
-                  Scan QR Lokasi
-                </h1>
-              </>
-            )}
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

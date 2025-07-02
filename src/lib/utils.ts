@@ -130,6 +130,11 @@ export function hari(n: number) {
       break;
   }
 }
+type errFaceType = {
+  id: number;
+  state: string;
+  description: string;
+};
 export function validateEmail(mail: string) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
     return true;
