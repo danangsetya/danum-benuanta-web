@@ -48,6 +48,7 @@ export default function AbsensiPersonal({
   const [data, setData] = useState<dataT>();
   async function getSess() {
     const token = await getSession();
+    console.log("token->",token)
     // if (token == null) router.replace("/login");
     const dt: { permission: permissionT[]; profil: profilT } = JSON.parse(
       token?.user?.email as string
@@ -304,7 +305,8 @@ export default function AbsensiPersonal({
               className="p-3 bg-sky-600 rounded-xl  w-36 flex-row items-center space-x-2 my-2"
               onClick={() => {
                 setWait(true);
-                
+                const stamp=nowTrimDateTimeHM()
+                fetch
                 //   myId().then((resId) => {
                 //     const { uuid, device, platform } = resId;
                 //     postData(cekUri, { uuid, platform, device_name: device })
