@@ -125,6 +125,16 @@ export type absenSekarangT = {
   jam_lembur_keluar: string | null;
   hari?: string;
 };
+export type facialPayload={
+  user_id:number;
+  name:string;
+  email:string;
+  personalia_id:number;
+}
+export type facialT={
+  facialId:string;
+  payload:facialPayload
+}
 export type profilT = {
   id?: string;
   user_id?: string;

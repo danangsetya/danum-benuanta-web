@@ -141,7 +141,7 @@ const errorsFace: errFaceType[] = [
   { description: "", state: "UNRECOGNIZED_FACE", id: 3 },
   { description: "", state: "MANY_FACES", id: 4 },
   { description: "", state: "PAD_ATTACK", id: 5 },
-  { description: "", state: "FACE_MISMATCH", id: 6 },
+  { description: "Kesalahan Pengenalan Wajah, Silahkan Hapus Data Wajah Terlebih Dahulu", state: "FACE_MISMATCH", id: 6 },
   { description: "", state: "NETWORK_IO", id: 7 },
   { description: "", state: "WRONG_PIN_CODE", id: 8 },
   { description: "", state: "PROCESSING_ERR", id: 9 },

@@ -93,6 +93,9 @@ export const authOptions: NextAuthOptions = {
           pass: string;
         };
         if (!credentials?.pass || !credentials.user) return null;
+                
+        // console.log(user,pass,!credentials?.pass || !credentials.user)
+
         // console.log("fuck");
         // const tes = await prisma.users.findMany({
         //   where: {
@@ -107,20 +110,23 @@ export const authOptions: NextAuthOptions = {
         //   })
         //   .then((res) => console.log(res))
         //   .catch((err) => console.error(err));
-        // console.log(tes);
+        // console.log(credentials)
+        // const data= await prisma.users.findMany()
+        // console.log("data user->",data);
         const userData = await prisma.users.findUnique({
           where: {
             username: user,
           },
         });
-        // console.log("fuck");
+        
         // console.log("data user", userData);
         const salt = await genSalt(10);
+        console.log(userData);
         // const cekPass = await compare(pass, userData!.password_hash);
         // console.log("userData->", userData?.password_hash);
         // console.log("userData->", pass);
         // console.log("userData->", cekPass);
-        // console.log("userData->hash", await hash(pass, salt));
+        console.log("userData->hash", await hash(pass, salt));
         //$2y$10$CX65gLfeZibeoYyOZB1KwO9fqDZ2UKzNnBekNqB5GdQDvlXePbrQm
         //$2a$04$0y202a0Nv6oQTQjM6PexjOLeQ4JiULi4dqzRbmb0bOrqxTpXqmTfu generate by bcryptjs hash
         // return {
