@@ -15,7 +15,7 @@ export async function POST(request:NextRequest){
     const req:{timestamp:string,userData:facialPayload,userInfo:userInfoFacialT}=await request.json()
     console.log("request->",req)
     if (req.timestamp!==nowTrimDateTimeHM()) return NextResponse.json({message:"redirect","redirect":"/absensi/personal"})
-    if (session!=null && session!==undefined && session.user!==undefined){
+    if (session!=null && session!==undefined && session.user!==undefined &&req.userData!==undefined){
         if (req.userData.personalia_id!==0 && req.userData.user_id!==0 &&  req.userInfo.facialId!==""){
         const savePersonalia=await prisma.personalia.update({
             where:{
@@ -40,5 +40,5 @@ export async function POST(request:NextRequest){
         }
     }
 
-        return NextResponse.json({"message":"End"})
+        return NextResponse.json({"message":"redirect","redirect":"/absensi/personal"})
 }

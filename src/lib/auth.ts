@@ -3,7 +3,8 @@ import CredentialProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import { compare, genSalt, hash } from "bcryptjs";
 import { Prisma } from "@prisma/client";
-import { SERVER_PHP } from "./utils";
+import { nowDateTime, SERVER_PHP } from "./utils";
+import md5 from "md5";
 const handleRespon = (user: string, userData: any) => {
   return new Promise<User>(async (resolve, rej) => {
     const dataGroupUser = await prisma.auth_groups_users.findFirst({
@@ -31,6 +32,28 @@ const handleRespon = (user: string, userData: any) => {
             typeof value == "bigint" ? value.toString() : value
           )
         );
+        await prisma.sessions.deleteMany({
+          where:{
+            username:dataPersonalia.username
+          }
+        })
+        await prisma.sessions.create({
+          data:{
+            uuid:md5(dataPersonalia.username),
+            login:1,
+            device:"browser",
+            platform:"web",
+            username:dataPersonalia.username,
+            last:new Date(nowDateTime())
+          }
+        })
+        await prisma.users.update({where:{
+          id:dataPersonalia.id
+        },
+          data:{
+            last_uuid:md5(dataPersonalia.username)
+          }
+        })
         resolve({
           id: userData?.id.toString(),
           name: user,
@@ -190,8 +213,10 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: ({ token, user }) => {
+      
       // console.log("jwt callback", { token, user });
       // return token;
+
       return {
         ...token,
       };

@@ -306,7 +306,15 @@ export default function AbsensiPersonal({
               onClick={() => {
                 setWait(true);
                 const stamp=nowTrimDateTimeHM()
-                fetch
+                fetch("/api/absensi/cek",{
+                  method:"GET",
+                  headers:{
+                    "Content-Type":"appication/json"
+                  }
+                }).then(res=>res.json())
+                .then(res=>console.log("res cek->",res))
+                .catch(err=>{console.log("err cek->",err);setWait(false)})
+                .finally(()=>setWait(false))
                 //   myId().then((resId) => {
                 //     const { uuid, device, platform } = resId;
                 //     postData(cekUri, { uuid, platform, device_name: device })
@@ -345,7 +353,7 @@ export default function AbsensiPersonal({
               )}
             </button>
           </div>
-        ) : profil.hash !== "" ? (
+        ) : (profil.hash !== "" && profil.hash!==null) ? (
           stat == "verified" ? (
             <>
               <div className="w-full flex-col justify-center item-center p-3 ">

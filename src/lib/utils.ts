@@ -51,6 +51,12 @@ export const httpStatus = {
   InternalServerError: 500,
   BadGateway: 503,
 };
+export const nowDateTime=()=>{
+  const date = new Date();
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+  .toString()
+  .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${(date.getHours()+8).toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:00`
+}
 const date = new Date();
 export const now = `${date.getFullYear()}-${(date.getMonth() + 1)
   .toString()
