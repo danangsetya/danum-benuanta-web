@@ -44,7 +44,7 @@ const handleRespon = (user: string, userData: any) => {
             device:"browser",
             platform:"web",
             username:dataPersonalia.username,
-            last:new Date(nowDateTime())
+            last:new Date()
           }
         })
         await prisma.users.update({where:{
