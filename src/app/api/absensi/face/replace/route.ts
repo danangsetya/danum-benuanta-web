@@ -1,6 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { facialPayload, facialT, userInfoFacialT } from "@/lib/types";
+import { facialPayload, facialT, permissionT, profilT, userInfoFacialT } from "@/lib/types";
 import { httpStatus, nowTrimDateTimeHM } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,8 +16,9 @@ export async function POST(request:NextRequest){
     console.log("request->",req,session)
     if (req.timestamp!==nowTrimDateTimeHM()) return NextResponse.json({message:"redirect","redirect":"/absensi/personal"})
     if (session!=null && session!==undefined && session.user!==undefined){
-        console.log(req.userInfo.payload.personalia_id+ "!==0 && " + req.userInfo.payload.user_id + "!==0 && " +req.userInfo.payload.name.toLowerCase() + " == " +session.user.name?.toString().toLowerCase() + " && " + req.userInfo.facialId + "!==''")
-        if (req.userInfo.payload.personalia_id!==0 && req.userInfo.payload.user_id!==0 && req.userInfo.payload.name.toLowerCase()==session.user.name?.toString().toLowerCase() && req.userInfo.facialId!==""){
+        const userData:{permissions:permissionT[],profil:profilT} = JSON.parse(session?.user?.email as string);
+        console.log(req.userInfo.payload.personalia_id+ "!==0 && " + req.userInfo.payload.user_id + "!==0 && " +req.userInfo.payload.name + " == " +userData.profil.nama + " && " + req.userInfo.facialId + "!==''")
+        if (req.userInfo.payload.personalia_id!==0 && req.userInfo.payload.user_id!==0 && req.userInfo.payload.name==userData.profil.nama && req.userInfo.facialId!==""){
         const savePersonalia=await prisma.personalia.update({
             where:{
                 id:req.userInfo.payload.personalia_id
