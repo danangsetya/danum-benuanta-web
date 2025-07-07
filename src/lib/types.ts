@@ -125,6 +125,16 @@ export type absenSekarangT = {
   jam_lembur_keluar: string | null;
   hari?: string;
 };
+type genderAge={
+  gender:string,
+  age:number
+}
+// {"facialId":"3b43fa65a7c3483a807efbed4166a8f2fioa715c","timestamp":"2023-12-06T07:17:30","details":{"gender":"male","age":31}}
+export type userInfoFacialT={
+  facialId:string,
+  timestamp:string,
+  details:genderAge
+}
 export type facialPayload={
   user_id:number;
   name:string;
@@ -133,7 +143,9 @@ export type facialPayload={
 }
 export type facialT={
   facialId:string;
-  payload:facialPayload
+  payload:facialPayload;
+  timestamp?:string;
+  details?:genderAge;
 }
 export type profilT = {
   id?: string;

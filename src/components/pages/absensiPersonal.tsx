@@ -89,7 +89,7 @@ export default function AbsensiPersonal({
 
               const faceUri =
                 uri +
-                `face/auth2/${btoa(nowDTHM)}/${btoa(
+                `face/auth/web/${btoa(nowDTHM)}/${btoa(
                   main + "/absensi/personal"
                 )}/${btoa(qrWindow.absen)}/${btoa(
                   JSON.stringify({ uname: profil?.uname, name: profil?.nama })
@@ -440,7 +440,7 @@ export default function AbsensiPersonal({
                                 const nowDTHM = nowTrimDateTimeHM();
                                 const faceUri =
                                   uri +
-                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                  `face/auth/web/${btoa(nowDTHM)}/${btoa(
                                     main + "/absensi/personal"
                                   )}/${btoa("datang")}/${btoa(
                                     JSON.stringify({
@@ -589,7 +589,7 @@ export default function AbsensiPersonal({
                                 const nowDTHM = nowTrimDateTimeHM();
                                 const faceUri =
                                   uri +
-                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                  `face/auth/web/${btoa(nowDTHM)}/${btoa(
                                     main + "/absensi/personal"
                                   )}/${btoa("pulang")}/${btoa(
                                     JSON.stringify({
@@ -726,7 +726,7 @@ export default function AbsensiPersonal({
                                 const nowDTHM = nowTrimDateTimeHM();
                                 const faceUri =
                                   uri +
-                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                  `face/auth/web/${btoa(nowDTHM)}/${btoa(
                                     main + "/absensi/personal"
                                   )}/${btoa("lembur_datang")}/${btoa(
                                     JSON.stringify({
@@ -798,7 +798,7 @@ export default function AbsensiPersonal({
                                 const nowDTHM = nowTrimDateTimeHM();
                                 const faceUri =
                                   uri +
-                                  `face/auth2/${btoa(nowDTHM)}/${btoa(
+                                  `face/auth/web/${btoa(nowDTHM)}/${btoa(
                                     main + "/absensi/personal"
                                   )}/${btoa("lembur_pulang")}/${btoa(
                                     JSON.stringify({

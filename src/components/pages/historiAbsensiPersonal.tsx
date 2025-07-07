@@ -20,7 +20,7 @@ export default function HistoriAbsensiPersonal() {
   const [profil, setProfil] = useState<profilT>();
   const observer = useRef<IntersectionObserver>();
   const { toast } = useToast();
-  const useSearch = (param: string, page: number) => {
+  const useSearch = (param: string, page: number,uname?:string) => {
     const controller = new AbortController();
     const [hasMore, setHasMore] = useState(false);
     const [data, setData] = useState<absensiT[]>([]);
@@ -34,6 +34,7 @@ export default function HistoriAbsensiPersonal() {
     // useEffect(() => console.log("loading->", loading), [loading]);
     const getData = async (cPage = 0) => {
       return new Promise<resD>((resolve, reject) => {
+        if (uname == undefined) reject("uname empty")
         setLoading(true);
         fetch("/api/absensi/histori/list", {
           method: "POST",
@@ -43,7 +44,7 @@ export default function HistoriAbsensiPersonal() {
           body: JSON.stringify({
             page: cPage == 0 ? page : cPage,
             param,
-            uname: profil?.uname,
+            uname,
           }),
           signal: controller.signal,
         })
@@ -61,6 +62,9 @@ export default function HistoriAbsensiPersonal() {
     //     .catch((err) => console.error(err));
     // }, []);
     useEffect(() => {
+      if (uname!==undefined){
+
+      
       // console.log("page -->", page);
       setHasMore(true);
       // console.log("--param", param);
@@ -73,11 +77,12 @@ export default function HistoriAbsensiPersonal() {
         })
         .catch((err) => console.error(err))
         .finally(() => setLoading(false));
+        }
       // return () => {
       //   controller.abort();
       // };
       // if (param !== "") setPass(false);
-    }, [param]);
+    }, [param,uname]);
     useEffect(() => {
       // if (page <= 1) {
       //   setData([]);
@@ -85,7 +90,7 @@ export default function HistoriAbsensiPersonal() {
       // }
       // console.log("--page", page);
       // setPass(true);
-      if (page >= 2 && loading == false) {
+      if (page >= 2 && uname!==undefined && loading == false) {
         console.log("page search->", page);
         setLoading(true);
         getData()
@@ -117,9 +122,9 @@ export default function HistoriAbsensiPersonal() {
       }
 
       return () => {
-        // controller.abort();
+        if (page>=2) controller.abort();
       };
-    }, [page]);
+    }, [page,uname]);
 
     // useEffect(() => {
     //   console.log("hasMore->", hasMore);
@@ -156,7 +161,7 @@ export default function HistoriAbsensiPersonal() {
     return { hasMore, data, loading };
   };
 
-  const { data, hasMore, loading } = useSearch(param, page);
+  const { data, hasMore, loading } = useSearch(param, page,profil?.uname);
   const loadMoreCallback = useCallback(
     (x: any) => {
       if (loading) return;
@@ -200,10 +205,10 @@ export default function HistoriAbsensiPersonal() {
   }, [profil]);
   useEffect(() => {
     getSess().then(() => {
-      setParam("|");
-      setTimeout(() => {
-        setParam("");
-      }, 1000);
+    //   setParam("|");
+    //   setTimeout(() => {
+    //     setParam("");
+    //   }, 1000);
     });
   }, []);
 
@@ -241,7 +246,7 @@ export default function HistoriAbsensiPersonal() {
           {data.map((item, index) => {
             const tgl = new Date(item.tanggal);
 
-            // console.log(item);
+            console.log(item);
             return (
               <TableRow key={index} ref={loadMoreCallback}>
                 <TableCell className="flex flex-row space-x-2 -p-2">

@@ -12,8 +12,7 @@ export async function POST(request: NextRequest) {
       { status: httpStatus.Unauthorized }
     );
 
-  const req: { page: number; param: string; uname: string } =
-    await request.json();
+  const req: { page: number; param: string; uname: string } = await request.json();
   console.log(req);
   const newParam = "%" + req.param + "%";
   const page = req.page;
@@ -36,6 +35,7 @@ export async function POST(request: NextRequest) {
     },
   });
   if (dataPersonalia != null) {
+    console.log(`SELECT * FROM benuanta_pegawai.absensi WHERE benuanta_pegawai.absensi.id_personalia=${dataPersonalia.id} ORDER BY id DESC LIMIT ${startIndex},${limit} `)
     const dataAbsensi =
       await prisma.$queryRaw`SELECT * FROM benuanta_pegawai.absensi WHERE benuanta_pegawai.absensi.id_personalia=${dataPersonalia.id} ORDER BY id DESC LIMIT ${startIndex},${limit} `;
     const dataAbsensiSON = JSON.parse(

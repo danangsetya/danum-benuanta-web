@@ -1,3 +1,4 @@
+import RedirectPage from "@/components/pages/redirectPage";
 import { facialT, permissionT, profilT } from "@/lib/types";
 import { nowTrimDateTimeHM } from "@/lib/utils";
 import { getServerSession } from "next-auth";
@@ -24,8 +25,12 @@ export default async function Page({ params }: { params: { req: string[] } }) {
     const profil=jsonSess.profil
     console.log("profil->",profil)
     if (profil.nama!==uData.payload.name ||profil.email!==uData.payload.email){
-
+        // setTimeout(()=>{
+        redirect("/absensi/personal")
+        // console.log("redirect")
+      // },2000)
       return (<div className="flex flex-col p-5 items-center">
+       
         <span>Wajah Tidak sesuai dengan data profil personalia</span>
         <Link className="p-3 bg-sky-600 rounded-xl  w-36 flex-row items-center space-x-2 my-2 text-white font-bold text-center" href={"/absensi/personal"}>Kembali</Link>
       </div>)
