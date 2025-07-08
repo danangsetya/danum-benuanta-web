@@ -13,12 +13,14 @@ import {
   faClipboard,
   faCrosshairs,
   faDotCircle,
+  faExpand,
   faFileInvoice,
   faFileInvoiceDollar,
   faGear,
   faGlobe,
   faHome,
   faListCheck,
+  faListOl,
   faMoneyBill,
   faMoneyBillWave,
   faPaperPlane,
@@ -125,7 +127,7 @@ export default function MenuLeft() {
           }}
         >
           <FontAwesomeIcon
-            icon={faClipboard}
+            icon={faExpand}
             className="text-[30px] w-[35px] text-slate-50"
           />
           <span className="text-white font-semibold">Absensi</span>
@@ -139,7 +141,7 @@ export default function MenuLeft() {
           }}
         >
           <FontAwesomeIcon
-            icon={faClipboard}
+            icon={faListOl}
             className="text-[30px] w-[35px] text-slate-50"
           />
           <span className="text-white font-semibold">Histori Absensi</span>

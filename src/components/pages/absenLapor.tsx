@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,8 +21,14 @@ export default function AbsenLapor({
 }) {
   const [dialog, setDialog] = useState(false);
   const route = useRouter();
-  useLayoutEffect(() => {
-    fetch("/api/absensi/back/" + status, {
+  // useLayoutEffect(() => {
+    
+  // }, []);
+  let x=1;
+  useEffect(()=>{
+    if (x==1){
+      x=2;
+      fetch("/api/absensi/back/" + status, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +55,8 @@ export default function AbsenLapor({
         }
       })
       .catch((err) => console.log("err absen datang->", err));
-  }, []);
+    }
+  },[])
   return (
     <div>
       <Dialog
