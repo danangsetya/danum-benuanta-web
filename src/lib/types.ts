@@ -108,6 +108,8 @@ export type absenT = {
   total_lembur: string;
   // aturan_jam: string;
   total_jam: string;
+  jam_masuk:string;
+  jam_keluar:string;
   // total_kurang_jam: string;
   // total_hari_kerja: number;
   // total_hari_alpha: number;

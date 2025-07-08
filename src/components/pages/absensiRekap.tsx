@@ -321,6 +321,8 @@ export default function AbsensiRekap() {
             <TableHead>Nama Pegawai</TableHead>
             <TableHead>Bidang</TableHead>
             <TableHead>periode</TableHead>
+            <TableHead>Jam Datang</TableHead>
+            <TableHead>Jam Pulang</TableHead>
             <TableHead>telat [kali]</TableHead>
             {/* <TableHead>Pulang Cepat [kali]</TableHead> */}
             <TableHead>Total Lembur [Menit]</TableHead>
@@ -363,6 +365,12 @@ export default function AbsensiRekap() {
                 <TableCell>{item.bagian}</TableCell>
                 <TableCell>
                   {from} - {to}
+                </TableCell>
+                <TableCell>
+                  {item.jam_masuk!==null?item.jam_masuk.substring(11,16):""}
+                </TableCell>
+                <TableCell>
+                  {item.jam_keluar!==null?item.jam_keluar.substring(11,16):""}
                 </TableCell>
                 <TableCell>{item.terlambat}</TableCell>
                 <TableCell>
