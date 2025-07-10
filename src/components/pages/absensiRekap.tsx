@@ -320,6 +320,7 @@ export default function AbsensiRekap() {
             <TableHead>Nik</TableHead>
             <TableHead>Nama Pegawai</TableHead>
             <TableHead>Bidang</TableHead>
+            <TableHead>Tmpt Absensi</TableHead>
             <TableHead>periode</TableHead>
             <TableHead>Jam Datang</TableHead>
             <TableHead>Jam Pulang</TableHead>
@@ -363,6 +364,7 @@ export default function AbsensiRekap() {
                   </Link>
                 </TableCell>
                 <TableCell>{item.bagian}</TableCell>
+                <TableCell>{item.nama_lokasi}</TableCell>
                 <TableCell>
                   {from} - {to}
                 </TableCell>

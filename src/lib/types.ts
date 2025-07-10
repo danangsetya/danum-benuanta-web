@@ -102,6 +102,7 @@ export type absenT = {
   nik: string;
   nama: string;
   bagian: string;
+  nama_lokasi: string;
   // periode: string;
   terlambat: number;
   // pulang_cepat: number;
