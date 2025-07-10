@@ -48,7 +48,7 @@ export default function AbsensiPersonal({
   const [data, setData] = useState<dataT>();
   async function getSess() {
     const token = await getSession();
-    console.log("token->",token)
+    console.log("token->", token);
     // if (token == null) router.replace("/login");
     const dt: { permission: permissionT[]; profil: profilT } = JSON.parse(
       token?.user?.email as string
@@ -305,16 +305,20 @@ export default function AbsensiPersonal({
               className="p-3 bg-sky-600 rounded-xl  w-36 flex-row items-center space-x-2 my-2"
               onClick={() => {
                 setWait(true);
-                const stamp=nowTrimDateTimeHM()
-                fetch("/api/absensi/cek",{
-                  method:"GET",
-                  headers:{
-                    "Content-Type":"appication/json"
-                  }
-                }).then(res=>res.json())
-                .then(res=>console.log("res cek->",res))
-                .catch(err=>{console.log("err cek->",err);setWait(false)})
-                .finally(()=>setWait(false))
+                const stamp = nowTrimDateTimeHM();
+                fetch("/api/absensi/cek", {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "appication/json",
+                  },
+                })
+                  .then((res) => res.json())
+                  .then((res) => console.log("res cek->", res))
+                  .catch((err) => {
+                    console.log("err cek->", err);
+                    setWait(false);
+                  })
+                  .finally(() => setWait(false));
                 //   myId().then((resId) => {
                 //     const { uuid, device, platform } = resId;
                 //     postData(cekUri, { uuid, platform, device_name: device })
@@ -353,7 +357,9 @@ export default function AbsensiPersonal({
               )}
             </button>
           </div>
-        ) : (profil.hash !== "" && profil.hash!==null) ? (
+        ) : profil.hash !== undefined &&
+          profil.hash !== "" &&
+          profil.hash !== null ? (
           stat == "verified" ? (
             <>
               <div className="w-full flex-col justify-center item-center p-3 ">

@@ -21,39 +21,42 @@ const handleRespon = (user: string, userData: any) => {
         },
       });
       if (dataPersonalia) {
+        console.log("dataPersonalia->", dataPersonalia);
         const dataUser = await prisma.users.findFirst({
           where: {
             id: dataPersonalia.id,
           },
         });
         console.log("dataPermissions->", dataPermissions);
+        console.log("md5->", md5(dataPersonalia.username));
         const dataPermToJson = JSON.parse(
           JSON.stringify(dataPermissions, (_, value) =>
             typeof value == "bigint" ? value.toString() : value
           )
         );
         await prisma.sessions.deleteMany({
-          where:{
-            username:dataPersonalia.username
-          }
-        })
+          where: {
+            username: dataPersonalia.username,
+          },
+        });
         await prisma.sessions.create({
-          data:{
-            uuid:md5(dataPersonalia.username),
-            login:1,
-            device:"browser",
-            platform:"web",
-            username:dataPersonalia.username,
-            last:new Date()
-          }
-        })
-        await prisma.users.update({where:{
-          id:dataPersonalia.id
-        },
-          data:{
-            last_uuid:md5(dataPersonalia.username)
-          }
-        })
+          data: {
+            uuid: md5(dataPersonalia.username),
+            login: 1,
+            device: "browser",
+            platform: "web",
+            username: dataPersonalia.username,
+            last: new Date(),
+          },
+        });
+        await prisma.users.update({
+          where: {
+            username: dataPersonalia.username,
+          },
+          data: {
+            last_uuid: md5(dataPersonalia.username),
+          },
+        });
         resolve({
           id: userData?.id.toString(),
           name: user,
@@ -116,7 +119,7 @@ export const authOptions: NextAuthOptions = {
           pass: string;
         };
         if (!credentials?.pass || !credentials.user) return null;
-                
+
         // console.log(user,pass,!credentials?.pass || !credentials.user)
 
         // console.log("fuck");
@@ -141,7 +144,7 @@ export const authOptions: NextAuthOptions = {
             username: user,
           },
         });
-        
+
         // console.log("data user", userData);
         const salt = await genSalt(10);
         console.log(userData);
@@ -213,7 +216,6 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: ({ token, user }) => {
-      
       // console.log("jwt callback", { token, user });
       // return token;
 
