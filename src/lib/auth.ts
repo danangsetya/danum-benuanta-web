@@ -57,6 +57,27 @@ const handleRespon = (user: string, userData: any) => {
             last_uuid: md5(dataPersonalia.username),
           },
         });
+        console.log("resolve->",{
+          id: userData?.id.toString(),
+          name: user,
+          email: JSON.stringify({
+            permissions: dataPermToJson,
+            profil: {
+              nama: dataPersonalia?.nama,
+              nik: dataPersonalia?.nik,
+              email: dataPersonalia?.email,
+              status_pegawai: dataPersonalia?.status_pegawai,
+              gol: dataPersonalia?.gol,
+              unit_kerja: dataPersonalia?.unit_kerja,
+              jabatan: dataPersonalia?.jabatan,
+              bagian: dataPersonalia?.bagian,
+              pangkat: dataPersonalia?.pangkat,
+              uname: dataPersonalia?.username,
+              hash: dataPersonalia.hash,
+              id_mesin_absen: dataPersonalia.id_mesin_absen,
+            },
+          }),
+        } )
         resolve({
           id: userData?.id.toString(),
           name: user,
@@ -73,7 +94,7 @@ const handleRespon = (user: string, userData: any) => {
               bagian: dataPersonalia?.bagian,
               pangkat: dataPersonalia?.pangkat,
               uname: dataPersonalia?.username,
-              hash: dataUser?.activate_hash,
+              hash: dataPersonalia.hash,
               id_mesin_absen: dataPersonalia.id_mesin_absen,
             },
           }),
