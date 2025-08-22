@@ -116,6 +116,7 @@ export default function DetailAbsensi({
             <TableHead>Jam Keluar</TableHead>
             <TableHead>Jam Lembur Masuk</TableHead>
             <TableHead>Jam Lembur Keluar</TableHead>
+            <TableHead>Telat</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -156,6 +157,7 @@ export default function DetailAbsensi({
                     ? item.jam_lembur_keluar.substring(11, 19)
                     : "-"}
                 </TableCell>
+                <TableCell>{item.terlambat}</TableCell>
               </TableRow>
             );
           })}
